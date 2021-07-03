@@ -31,7 +31,7 @@ divStyle.flexWrap="wrap";
 }*/
 
 const getData = async function  () {
-  let response = await fetch ("../js/FishEyeData.json")
+  let response = await fetch ("/../js/FishEyeData.json")
   let data = await response.json ()
   
   let media=data.media;
