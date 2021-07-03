@@ -59,8 +59,8 @@ ul {
   padding-right:1em;
   cursor:pointer;
 }
-li:hover {
-  transform:scale(1.2);
+.tags:hover {
+  transform:scale(1.1);
 }
 .accueil {
   display:flex;

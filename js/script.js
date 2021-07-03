@@ -2,6 +2,8 @@
 //DOM element
 const h1 = document.querySelector("h1");
 const main = document.querySelector("main");
+const tagsButton= document.getElementsByClassName("tags");
+
 
 //create Element 
 let createDiv = document.createElement("div");
@@ -29,7 +31,7 @@ divStyle.flexWrap="wrap";
 }*/
 
 const getData = async function  () {
-  let response = await fetch ("../../js/FishEyeData.json")
+  let response = await fetch ("../js/FishEyeData.json")
   let data = await response.json ()
   
   let media=data.media;
@@ -55,11 +57,7 @@ const getData = async function  () {
     box.appendChild(Nom).innerText=photographers[i].name;
     box.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
     box.appendChild(TagLine).innerText=photographers[i].tagline;
-    box.appendChild(Price).innerText=photographers[i].price +"€/jour";
-
-    
-    
-  
+    box.appendChild(Price).innerText=photographers[i].price +"€/jour";  
 
     box.style.display="flex";
     box.style.flexDirection="column";
@@ -90,20 +88,45 @@ const getData = async function  () {
     TagLine.style.fontWeight="500";
     TagLine.style.fontSize="10px";
 
-    
+    //on cherche les Tags de chaque Photographe
     for(let j=0; j<photographers[i].tags.length;j++){
-      console.log(photographers[i].tags[j])
+      
       let Tags = document.createElement('div');
-    box.appendChild(boxTags);
-    boxTags.appendChild(Tags);
-    boxTags.style.display="flex";
-    boxTags.style.alignSelf="center";
-    Tags.innerText="#"+photographers[i].tags[j];
-    Tags.classList.add('tags');
-  Tags.width="auto";}
-  }     
+      box.appendChild(boxTags);
+      boxTags.appendChild(Tags);
+      boxTags.style.display="flex";
+      boxTags.style.alignSelf="center";
+      boxTags.style.gap='0.5em';
+      Tags.innerText="#"+photographers[i].tags[j];
+      Tags.classList.add('tags');
+      Tags.width="auto";
+    
+
+      //on crée un évenement lorsqu'on clique sur un tag
+  
+     for (let p=0;p<tagsButton.length;p++ )
+    
+     {tagsButton[p].addEventListener("click", (e) => {    
+      console.log(tagsButton[p].textContent)
+     
+     
+     if (tagsButton.textContent!==photographers[i].tags[j].textContent){
        
-  }
+      
+       
+     }
+      
+    })}
+    
+
+
+
+
+
+  }    
+ 
+  } }
+  
 
 
 getData()
