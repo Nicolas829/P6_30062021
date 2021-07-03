@@ -31,7 +31,7 @@ divStyle.flexWrap="wrap";
 }*/
 
 const getData = async function  () {
-  let response = await fetch ("../js/FishEyeData.json")
+  let response = await fetch ("/js/FishEyeData.json")
   let data = await response.json ()
   
   let media=data.media;
@@ -101,22 +101,30 @@ const getData = async function  () {
       Tags.classList.add('tags');
       Tags.width="auto";
     
-
+      
       //on crée un évenement lorsqu'on clique sur un tag
-  
+      
      for (let p=0;p<tagsButton.length;p++ )
-    
+     
      {tagsButton[p].addEventListener("click", (e) => {    
-      console.log(tagsButton[p].textContent)
+      
+     let chooseTags=[];
+     chooseTags.push(tagsButton[p].textContent);
+     let filterTags =chooseTags[0];
      
-     
-     if (tagsButton.textContent!==photographers[i].tags[j].textContent){
+     if(filterTags==Tags.textContent) {
+      
        
+       
+
+     }
+    
       
        
      }
-      
-    })}
+    
+    
+     )}
     
 
 
@@ -125,7 +133,7 @@ const getData = async function  () {
 
   }    
  
-  } }
+  }  } 
   
 
 
