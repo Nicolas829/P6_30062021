@@ -21,7 +21,9 @@ section  {
 
 }
 
-
+.navigation_photograph {
+  justify-content: flex-start;
+}
   .logo {
     display: flex;
     justify-content: flex-start;

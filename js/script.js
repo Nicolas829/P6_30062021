@@ -1,22 +1,32 @@
 
 //DOM element
 const h1 = document.querySelector("h1");
-const main = document.querySelector("main");
-const tagsButton= document.getElementsByClassName("tags");
+const mainIndex = document.getElementsByClassName("index");
+const main= document.querySelector("main")
+const body=document.querySelector("body")
+const title=document.querySelector("title")
+let hidden=document.getElementsByClassName("hidden")
+
 
 
 //create Element 
 let createDiv = document.createElement("div");
 let listItem = document.createElement('div');
+const photographersData=[]
+const liButton= document.querySelectorAll("li");
+const tagsButton= document.getElementsByClassName("tags");
+
 
 
 //création de la div présentation des photographes
-main.appendChild(createDiv);
+main.appendChild(createDiv)
+
 createDiv.classList.add("photographer");
+const photoClass= document.getElementsByClassName('photographers')
 let divStyle=createDiv.style;
 divStyle.display="flex";
-divStyle.justifyContent="space-between";
-divStyle.columnGap="7.5em";
+divStyle.justifyContent="flex-start";
+divStyle.columnGap="11em";
 divStyle.rowGap="2em";
 divStyle.boxSizing="border-box";
 divStyle.marginTop="10em";
@@ -24,25 +34,29 @@ divStyle.flexWrap="wrap";
 
 
 
-/*function listItem(item){
-  let listItem = document.createElement('li');
-  b.appendChild(listItem).innerText=item;
 
-}*/
+//on créer les tags pour les boutonsTags
+for (let p=0;p<liButton.length;p++ ){
 
+  liButton[p].classList.add(liButton[p].innerText)
+ 
+}
+//on va chercher le JSON
 const getData = async function  () {
   let response = await fetch ("/../js/FishEyeData.json")
   let data = await response.json ()
   
   let media=data.media;
   let photographers=data.photographers; 
+  const boxFilter = [];
   
-  
+  //on va pointer les élements de chaque photographes
   for(let i=0; i<photographers.length;i++){        
 
-   
+ 
     //Create element pour les box
     let box = document.createElement('div');
+    let boxPresentation =document.createElement('div')
     let Nom = document.createElement('div');
     let boxTags = document.createElement('div');
     
@@ -50,14 +64,39 @@ const getData = async function  () {
     let TagLine =document.createElement('div');
     let Price =document.createElement('div');
     let Photo =document.createElement('img');
+    let a= document.createElement("a")
 
-    //création des box individ
+    //création de l'url pour les pages photographes     
+    let url="photograph.html?"+photographers[i].name.replace(" ", "");
+
+    //création des box individ pour la page INDEX
     createDiv.appendChild(box);
-    box.appendChild(Photo).src="img/"+photographers[i].portrait ;
-    box.appendChild(Nom).innerText=photographers[i].name;
-    box.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
-    box.appendChild(TagLine).innerText=photographers[i].tagline;
-    box.appendChild(Price).innerText=photographers[i].price +"€/jour";  
+
+
+    /*********************** */
+    //création de la page photograph
+    
+     
+     /************************/
+    
+    box.appendChild(a);
+    //on crée une zone cliquable
+    a.appendChild(Photo).src="img/"+photographers[i].portrait ;
+    a.appendChild(Nom).innerText=photographers[i].name;
+    a.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
+    a.appendChild(TagLine).innerText=photographers[i].tagline;
+    a.appendChild(Price).innerText=photographers[i].price +"€/jour";  
+   
+    a.style.textDecoration="none"
+    a.style.color="black"
+    
+   
+    let dataTags =[];
+    dataTags.push(photographers[i].tags)
+    box.classList.add(dataTags)
+  
+    boxFilter.push(box.className.split(","))
+    
 
     box.style.display="flex";
     box.style.flexDirection="column";
@@ -65,8 +104,9 @@ const getData = async function  () {
     box.style.textAlign="center"
     box.style.boxSizing="border-box";      
     box.style.width="25%";
-    
     box.style.gap="0.5em";
+    box.style.cursor="pointer";
+
     
     Photo.style.objectFit="cover";
     Photo.style.width="230px";
@@ -91,53 +131,91 @@ const getData = async function  () {
     //on cherche les Tags de chaque Photographe
     for(let j=0; j<photographers[i].tags.length;j++){
       
+     
       let Tags = document.createElement('div');
       box.appendChild(boxTags);
+          
       boxTags.appendChild(Tags);
       boxTags.style.display="flex";
       boxTags.style.alignSelf="center";
       boxTags.style.gap='0.5em';
-      Tags.innerText="#"+photographers[i].tags[j];
+      Tags.innerText="#"+photographers[i].tags[j];            
       Tags.classList.add('tags');
+      Tags.classList.add(Tags.textContent)
       Tags.width="auto";
-    
-      
-      //on crée un évenement lorsqu'on clique sur un tag
-      
-     for (let p=0;p<tagsButton.length;p++ )
-     
-     {tagsButton[p].addEventListener("click", (e) => {    
-      
-     let chooseTags=[];
-     chooseTags.push(tagsButton[p].textContent);
-     let filterTags =chooseTags[0];
-     
-     if(filterTags==Tags.textContent) {
-      
-       
-       
 
-     }
-    
+
+
       
-       
-     }
+    //création du filtre de recherche de tags
+            for (let p=0;p<tagsButton.length;p++ ){           
     
+     tagsButton[p].addEventListener("click", (e) =>          
+     
+      {      
+       let info =e.target.className
+      const filterTags =[]
+      filterTags.push(info);     
+      
+      
+      console.log(filterTags[0])
     
+      let result = boxFilter[i].filter((element) =>"tags #"+element == (filterTags[0]));
+      console.log(filterTags)
+    
+        if("tags #"+result[0]!==(filterTags[0]))
+        {             
+          box.style.display="none"                      
+        }
+        else{         
+          box.style.display="flex"       
+        }     
+     
+  }      
      )}
+     
+
+     
+//on lance la  page des photograph au clic
+
+     a.addEventListener('click', (e)=>{       
+        open(url, '_self', false)   ;
+      
+  })
+
+//on crée les pages individuelle pour les photographes
+
+function createPhotograph () {
+  let result =location.href.indexOf(photographers[i]);
+  console.log(result)
+    if (location.search=="?"+photographers[i].name)
     
+    {console.log("ok")
+  }
+}
+
+}};
+createPhotograph()
+}
+
+    getData()
+
+   
+
+
+
+
+     
+    
+    
+   
 
 
 
 
 
-  }    
- 
-  }  } 
+
   
-
-
-getData()
 
 
 
