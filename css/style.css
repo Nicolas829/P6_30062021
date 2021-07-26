@@ -73,3 +73,52 @@ ul {
   font-size:2.5em;
  
 }
+
+/***************carousel****************/
+
+
+.carousel {
+  position: relative;
+  overflow:hidden;
+ 
+  
+}
+
+.carousel__item{
+  float:left;
+
+
+}
+
+.carousel__container {
+  transform:translate3d(0,0,0);
+  transition: transform 0.3s;
+}
+
+.carousel__container::after {
+content:"";
+clear:both;
+display:table;
+
+
+}
+
+
+ 
+
+
+
+.carousel__next, .carousel__prev {
+  width:40px;
+  height :40px;
+  background:#fff ;
+  background-image: url(../button.png);
+  background-size:20px 20px;
+  cursor: pointer;
+  
+ 
+}
+
+.carousel__prev{
+  transform:rotateY(180deg)
+}
