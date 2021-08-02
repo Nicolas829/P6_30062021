@@ -21,6 +21,10 @@ section  {
 
 }
 
+a{
+  text-decoration: none;
+}
+
 .navigation_photograph {
   justify-content: flex-start;
 }
@@ -71,7 +75,37 @@ ul {
   white-space: nowrap;
   color:#911C1C;
   font-size:2.5em;
+  font-weight:400;
  
+}
+
+@media screen and (max-width: 1200px) {
+
+  main {
+    padding-left:0;
+  }
+  section {
+    
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    
+  }
+
+nav {
+  order:3; 
+  font-size:2em;
+}
+ul {
+  flex-wrap: wrap;
+}
+
+.accueil {
+
+  margin-left:4.5em;
+}
+.logo {
+  margin-left:0.5em;
+}
 }
 
 /***************carousel****************/
@@ -79,14 +113,12 @@ ul {
 
 .carousel {
   position: relative;
-  overflow:hidden;
- 
+  overflow:hidden;   
   
 }
 
 .carousel__item{
   float:left;
-
 
 }
 
@@ -98,7 +130,6 @@ ul {
 .carousel__container::after {
 content:"";
 clear:both;
-display:table;
 
 
 }
@@ -109,13 +140,15 @@ display:table;
 
 
 .carousel__next, .carousel__prev {
-  width:40px;
-  height :40px;
-  background:#fff ;
+  width:100px;
+  height :100px;
+ 
   background-image: url(../button.png);
-  background-size:20px 20px;
-  cursor: pointer;
-  
+  background-repeat: no-repeat;
+  background-size:100px 100px;
+  cursor: pointer;   
+ position:absolute;
+ z-index:2;
  
 }
 

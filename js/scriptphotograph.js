@@ -14,11 +14,13 @@ let buttonContact=document.createElement("button")
 let box1 = document.createElement('div');
 let box2 = document.createElement('div');
 let box3 = document.createElement('div');
+let box4 = document.createElement('div');
+let box5 = document.createElement('div');
 let carousel__container = document.createElement("div")
 
 let createDiv = document.createElement("div");
 let listItem = document.createElement('div');
-let Nom = document.createElement('div');
+let Nom = document.createElement('h1');
 let boxTags = document.createElement('div');    
 let Lieu = document.createElement('div');
 let TagLine =document.createElement('div');
@@ -32,8 +34,42 @@ const liButton= document.querySelectorAll("li");
 const tagsButton= document.getElementsByClassName("tags");
 
 
+let boxFixe = document.createElement("div")
+let totalLike =document.createElement("p")
+let heartFixe= document.createElement("i")
+let priceBoxFixe=document.createElement("p")
+body.appendChild(boxFixe)
 
 
+//creation de la boxFixe
+
+boxFixe.appendChild(totalLike)
+boxFixe.appendChild(heartFixe)
+
+boxFixe.appendChild(priceBoxFixe)
+
+
+boxFixe.style.position="fixed"
+boxFixe.style.bottom="0"
+boxFixe.style.right="5%"
+boxFixe.style.width="15em"
+boxFixe.style.backgroundColor="#DB8876"
+boxFixe.style.borderRadius="5px"
+boxFixe.style.height="3em"
+boxFixe.style.display="flex"
+boxFixe.style.justifyContent="space-around"
+boxFixe.style.alignItems="center"
+
+let sumLike=259689;
+
+totalLike.textContent= sumLike
+
+heartFixe.classList.add("far")
+heartFixe.classList.add("fa-heart")
+heartFixe.style.marginLeft="-2em"
+heartFixe.addEventListener("click", (e)=>{
+ totalLike.textContent=sumLike+=1
+ heartFixe.classList.replace("far","fas") })
 //on va chercher le JSON
 const getData = async function  () {
     let response = await fetch ("/../js/FishEyeData.json")
@@ -42,6 +78,9 @@ const getData = async function  () {
     let media=data.media;
     let photographers=data.photographers; 
     const boxFilter = [];
+
+
+    
 
     //création de l'encart Photographe
     
@@ -58,10 +97,11 @@ const getData = async function  () {
                 box3.appendChild(Photo).src="img/"+photographers[i].portrait ;
                 box1.appendChild(Nom).innerText=photographers[i].name;
                 box1.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
-                box1.appendChild(TagLine).innerText=photographers[i].tagline;
-               
+                box1.appendChild(TagLine).innerText=photographers[i].tagline;               
                 box2.appendChild(buttonContact).innerText="Contactez-moi"               
               
+                
+                
 
                 //encart de présentation divisé en trois box
                 createDiv.style.backgroundColor="#FAFAFA"
@@ -80,7 +120,13 @@ const getData = async function  () {
                 box1.style.alignSelf="center"
                 box1.style.marginLeft="4em"
                 box1.style.gap="1em"
-
+                
+                Nom.tabIndex="2"
+                Lieu.tabIndex="3"
+                TagLine.tabIndex="4"
+                box2.tabIndex="5"
+                box3.tabIndex="6"
+                Photo.setAttribute("alt", "photo de"+photographers[i].name)
 
                 box2.style.display="flex"
                 box2.style.marginTop="4.5em"
@@ -95,7 +141,8 @@ const getData = async function  () {
                
                 Nom.style.color="#D3573C";
                 Nom.style.fontSize="36px";
-
+                Nom.style.fontWeight="400";
+                Nom.tabIndex="2"
                 //lieu
                 Lieu.style.color="#901C1C";
                 Lieu.style.fontWeight="500";
@@ -173,21 +220,21 @@ const getData = async function  () {
                 prenom.style.marginTop="0.1em"
                 prenom.innerText="Prénom"
                 prenom.style.fontSize="4em"
-                form.appendChild(inputPrenom)
-                form.appendChild(nom) 
+                form.appendChild(inputPrenom).tabIndex="2"
+                form.appendChild(nom)
                 nom.innerText="Nom"
                 nom.style.fontSize="4em"
-                form.appendChild(inputNom)
+                form.appendChild(inputNom).tabIndex="3" 
 
                 form.appendChild(email)
                 email.innerText="email"
                 email.style.fontSize="4em"
-                form.appendChild(inputEmail)
+                form.appendChild(inputEmail).tabIndex="4" 
                
                 form.appendChild(message)
                 message.innerText="Votre Message"
                 message.style.fontSize="4em"
-                form.appendChild(inputMessage)             
+                form.appendChild(inputMessage).tabIndex="5"              
                 form.appendChild(envoi)
 
                 
@@ -214,6 +261,7 @@ const getData = async function  () {
                 input.style.fontSize="2em"
                 input.style.outline="none"
                 input.setAttribute("type", "text")}
+
                 
                 inputStyle(inputPrenom)
                 inputStyle(inputNom)
@@ -285,16 +333,14 @@ const getData = async function  () {
                    
                     
                     
-                    
                 
                 //fonction ouverture de la modal
                 const openModal= function (e) {
                     modal.style.display="flex"
                     modal.style.opacity="1";
                     modal.style.transition="opacity 1s"
-                    
                    main.style.filter="blur(4px)"
-                                      
+                    
                 }
 
                 //click du load de la fonction d'ouverture
@@ -322,6 +368,7 @@ const getData = async function  () {
                  boxTri.style.gap="1.5em"
                 
                  boxTri.appendChild(textTri).innerText="Trier par"
+                 textTri.tabIndex="7"
                 boxTri.appendChild(listeTri)
 
                 listeTri.style.backgroundColor="#901C1C"
@@ -329,7 +376,7 @@ const getData = async function  () {
                 listeTri.style.borderRadius="5px"
                 listeTri.style.width="170px"
                 listeTri.style.fontWeight="700"               
-                
+                listeTri.tabIndex="8"
                                 
                 listeTri.appendChild(popularite).innerText="popularité"
                 listeTri.appendChild(date).innerText="Date"
@@ -380,8 +427,10 @@ const getData = async function  () {
                                       
                         
                         box.style.width="30%"
-                        box.style.height="30%"
+                        box.style.height="300px"
                         box.style.alignItems="center"
+                        box.tabIndex="9"+i
+                        box.setAttribute("alt", media[p].title)
                                               
                       
                         box.appendChild(picture).src= "img/"+media[p].image
@@ -395,17 +444,21 @@ const getData = async function  () {
                     
                       
                         video.style.width="100%"
-                        video.style.height="300px"
+                        video.style.height="100%"
+                        video.style.overflow="hidden"
                         video.style.objectFit="cover"
                         video.setAttribute("type", "video/mp4")
                         video.setAttribute("allow", "autoplay")
                         video.setAttribute("controls", "true")
                         video.style.borderRadius="5px"  
-                       
+                        video.setAttribute("class", "carouselStyle")
+                        picture.setAttribute("class", "carouselStyle")
+
+
                         picture.style.objectFit="cover";
                         picture.style.overflow="hidden"
                         picture.style.width="100%"
-                        picture.style.height="300px"
+                        picture.style.height="100%"
                         picture.style.borderRadius="5px"  
                         box.appendChild(text)
                         text.appendChild(picturesName).innerText=media[p].title
@@ -417,6 +470,7 @@ const getData = async function  () {
                         
                        heart.classList.add("far")
                        heart.classList.add("fa-heart")
+                       
                        
                      
 
@@ -455,13 +509,14 @@ const getData = async function  () {
                                     if(listeTri.value== "popularité") {
                                         
                                         box.style.order="-"+media[p].likes
+                                        box.tabIndex=media[p].likes 
                                        
                                    }
                             }
                                     if (listeTri.value=="Date"){
                                        
                                         box.style.order="-"+box.className.replace("-","")
-                                      
+                                        box.tabIndex=box.className.replace("-","")
                                     }
 
                                     if (listeTri.value=="Titre") {
@@ -470,12 +525,16 @@ const getData = async function  () {
                                             box.id.replace(" ","")
                                            box.style.order=box.id.charCodeAt()
                                            box.style.order+=box.id[j].charCodeAt()
-                                         
+                                         box.tabIndex=box.id.charCodeAt()
+                                         box.tabIndex+=box.id[j].charCodeAt()
                                         }
                                     }
 
                         })
-                               
+                       
+
+                        priceBoxFixe.innerText=photographers[i].price+"€/jour"
+                                                    
                         
                         //Carousel
                                
@@ -502,18 +561,28 @@ const getData = async function  () {
             }, options) 
 
             let children = [].slice.call(element.children)
-            console.log(box.picture)
-           this.currentItem = 0
+          this.currentItem = 0
            this.root = this.createDivWithClass("carousel")
            this.panorama = this.createDivWithClass('carousel__container')
            
            this.root.appendChild(this.panorama)
            this.element.appendChild(this.root)
-            console.log(children)
+            console.log(children.map)
          this.items = children.map((child) => {
                let item = this.createDivWithClass("carousel__item")
             
-               item.appendChild(child)
+               item.appendChild(child)              
+               child.style.width=window.innerWidth-150+"px"
+               child.style.height=window.innerHeight-50+"px"
+                console.log(this.items)
+                window.addEventListener("resize", (e)=>{
+
+                    child.style.width=window.innerWidth-150+"px"
+                    child.style.height=window.innerHeight-50+"px"
+                    
+                })
+               
+              
                 this.panorama.appendChild(item)
                 return item
             })
@@ -525,6 +594,7 @@ const getData = async function  () {
         /**
          * applique les bonnes dimensions aux élements du carousel
          */
+        
 
         setStyle () {
             let ratio = this.items.length / this.options.slidesVisible
@@ -539,9 +609,22 @@ const getData = async function  () {
             let prevButton = this.createDivWithClass('carousel__prev')
             this.root.appendChild(nextButton)
             this.root.appendChild(prevButton)
+            nextButton.style.marginTop=(window.innerHeight-150)/2+"px"
+            prevButton.style.marginTop=(window.innerHeight-150)/2+"px"
+            nextButton.style.right="10%"
+
+            
             nextButton.addEventListener("click", this.next.bind(this) )
             prevButton.addEventListener("click", this.prev.bind(this) )
+            window.addEventListener("resize", (e)=>{
+
+               
+                nextButton.style.marginTop=(window.innerHeight-150)/2+"px"
+                 prevButton.style.marginTop=(window.innerHeight-150)/2+"px"
+            })
         } 
+    
+    
 
         next () {
             this.gotToItem(this.currentItem + this.options.slidesToScroll)
@@ -558,6 +641,7 @@ const getData = async function  () {
 
         gotToItem (index) {
             let translateX= index * -100/ this.items.length
+           
             this.panorama.style.transform ="translate3d(" + translateX + "%,0,0)";
             this.currentItem = index
            
@@ -577,18 +661,23 @@ const getData = async function  () {
             return div
 
         }
+       
+        
       } 
      picture.addEventListener('click', launchCarousel)
      video.addEventListener('click', launchCarousel)
 
      function launchCarousel() {
         
+    body.removeChild(main)
+    body.appendChild(container)
+    body.removeChild(boxFixe)
+    body.style.overflow="hidden"
+    body.style.marginLeft="5em"
+    body.style.display="flex"
+    body.style.justifyContent="center"
     
-     main.removeChild(createDiv)
-     main.removeChild(boxTri)
-     main.removeChild(section)
-      
-     
+
       new Carousel (document.querySelector("#container"), {
 
         slidesToScroll:1,
@@ -598,7 +687,6 @@ const getData = async function  () {
     }
                          
                        
-
 
                     }}
                  

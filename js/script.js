@@ -25,12 +25,13 @@ createDiv.classList.add("photographer");
 const photoClass= document.getElementsByClassName('photographers')
 let divStyle=createDiv.style;
 divStyle.display="flex";
-divStyle.justifyContent="flex-start";
+divStyle.justifyContent="center";
 divStyle.columnGap="11em";
-divStyle.rowGap="2em";
+divStyle.rowGap="10em";
 divStyle.boxSizing="border-box";
 divStyle.marginTop="10em";
-divStyle.flexWrap="wrap";
+
+divStyle.flexFlow="row wrap"
 
 
 
@@ -57,12 +58,12 @@ const getData = async function  () {
     //Create element pour les box
     let box = document.createElement('div');
     let boxPresentation =document.createElement('div')
-    let Nom = document.createElement('div');
+    let Nom = document.createElement('h2');
     let boxTags = document.createElement('div');
     
-    let Lieu = document.createElement('div');
-    let TagLine =document.createElement('div');
-    let Price =document.createElement('div');
+    let Lieu = document.createElement('p');
+    let TagLine =document.createElement('p');
+    let Price =document.createElement('p');
     let Photo =document.createElement('img');
     let a= document.createElement("a")
 
@@ -83,9 +84,12 @@ const getData = async function  () {
     //on crée une zone cliquable
     a.appendChild(Photo).src="img/"+photographers[i].portrait ;
     a.appendChild(Nom).innerText=photographers[i].name;
-    a.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
-    a.appendChild(TagLine).innerText=photographers[i].tagline;
-    a.appendChild(Price).innerText=photographers[i].price +"€/jour";  
+    box.appendChild(boxPresentation)
+
+    boxPresentation.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
+    boxPresentation.appendChild(Price).innerText=photographers[i].price +"€/jour";  
+
+    boxPresentation.appendChild(TagLine).innerText=photographers[i].tagline;
    
     a.style.textDecoration="none"
     a.style.color="black"
@@ -100,33 +104,50 @@ const getData = async function  () {
 
     box.style.display="flex";
     box.style.flexDirection="column";
+    a.setAttribute("aria-label", "lien vers la page de"+ photographers[i].name)
+    
+    a.tabIndex=+ i+"11"
     
     box.style.textAlign="center"
     box.style.boxSizing="border-box";      
     box.style.width="25%";
-    box.style.gap="0.5em";
     box.style.cursor="pointer";
+    
+    window.onresize=resizePage()
+    function resizePage() {
+      if(window.innerWidth<1200) {
+        box.style.fontSize="2em"
+        box.style.width="100%"
+      }
+    }
+   
+    
+
 
     
     Photo.style.objectFit="cover";
-    Photo.style.width="230px";
-    Photo.style.height="230px";
+    Photo.style.width="15em";
+    Photo.style.height="15em";
     Photo.style.alignSelf="center";
     Photo.style.borderRadius="100%";
+    boxPresentation.style.marginTop="-1em"
+    boxPresentation.tabIndex=i+"12"
 
     Nom.style.boxSizing="border-box";    
    
     Nom.style.textAlign="center";
     Nom.style.color="#D3573C";
-    Nom.style.fontSize="36px";
+    Nom.style.fontSize="3em";
+    Nom.style.fontWeight="400";
 
     Lieu.style.color="#901C1C";
     Lieu.style.fontWeight="500";
-    Lieu.style.fontSize="13px";
+    Lieu.style.fontSize="1em";
+    Lieu.style.marginTop="0"
     Price.style.color="#757575";
 
     TagLine.style.fontWeight="500";
-    TagLine.style.fontSize="10px";
+    TagLine.style.fontSize="1em";
 
     //on cherche les Tags de chaque Photographe
     for(let j=0; j<photographers[i].tags.length;j++){
@@ -143,9 +164,10 @@ const getData = async function  () {
       Tags.classList.add('tags');
       Tags.classList.add(Tags.textContent)
       Tags.width="auto";
+      Tags.tabIndex=i+"13"
 
-
-
+    
+  
       
     //création du filtre de recherche de tags
             for (let p=0;p<tagsButton.length;p++ ){           
@@ -183,6 +205,8 @@ const getData = async function  () {
       
   })
 
+
+
 //on crée les pages individuelle pour les photographes
 
 function createPhotograph () {
@@ -199,7 +223,7 @@ createPhotograph()
 }
 
     getData()
-
+   
    
 
 
