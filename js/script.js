@@ -109,15 +109,19 @@ const getData = async function  () {
     a.tabIndex=+ i+"11"
     
     box.style.textAlign="center"
+    box.style.alignItems="center"
     box.style.boxSizing="border-box";      
     box.style.width="25%";
     box.style.cursor="pointer";
     
-    window.onresize=resizePage()
+    window.addEventListener("resize", resizePage)
     function resizePage() {
       if(window.innerWidth<1200) {
         box.style.fontSize="2em"
         box.style.width="100%"
+      } else {
+        box.style.width="25%"
+        box.style.fontSize="1em"
       }
     }
    
@@ -133,12 +137,15 @@ const getData = async function  () {
     boxPresentation.style.marginTop="-1em"
     boxPresentation.tabIndex=i+"12"
 
-    Nom.style.boxSizing="border-box";    
+    
    
     Nom.style.textAlign="center";
+    Nom.style.whiteSpace="nowrap"
     Nom.style.color="#D3573C";
     Nom.style.fontSize="3em";
     Nom.style.fontWeight="400";
+    
+   
 
     Lieu.style.color="#901C1C";
     Lieu.style.fontWeight="500";

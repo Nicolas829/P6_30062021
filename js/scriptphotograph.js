@@ -97,11 +97,31 @@ const getData = async function  () {
                 box3.appendChild(Photo).src="img/"+photographers[i].portrait ;
                 box1.appendChild(Nom).innerText=photographers[i].name;
                 box1.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
-                box1.appendChild(TagLine).innerText=photographers[i].tagline;               
+
+                box1.appendChild(TagLine).innerText=photographers[i].tagline;  
                 box2.appendChild(buttonContact).innerText="Contactez-moi"               
               
+                for(let j=0; j<photographers[i].tags.length;j++){
+      
+     
+                    let Tags = document.createElement('div');
+                    box1.appendChild(boxTags);
+                        
+                    boxTags.appendChild(Tags);
+                    boxTags.style.display="flex";
+                    boxTags.style.alignSelf="center";
+                    boxTags.style.gap='0.5em';
+                    Tags.innerText="#"+photographers[i].tags[j];            
+                    Tags.classList.add('tags');
+                    Tags.classList.add(Tags.textContent)
+                    Tags.width="auto";
+                    Tags.tabIndex="6"
+
+                }
                 
-                
+
+
+
 
                 //encart de présentation divisé en trois box
                 createDiv.style.backgroundColor="#FAFAFA"
@@ -125,7 +145,7 @@ const getData = async function  () {
                 Lieu.tabIndex="3"
                 TagLine.tabIndex="4"
                 box2.tabIndex="5"
-                box3.tabIndex="6"
+                box3.tabIndex="7"
                 Photo.setAttribute("alt", "photo de"+photographers[i].name)
 
                 box2.style.display="flex"
@@ -150,24 +170,25 @@ const getData = async function  () {
                 
                 //photo
                 Photo.style.objectFit="cover";
-                Photo.style.width="230px";
-                Photo.style.height="230px";
+                Photo.style.width="16em";
+                Photo.style.height="16em";
                 
                 Photo.style.borderRadius="100%";
                
                 //button contact
                 function buttonCreate(buttonName){
-                buttonName.style.width="170px";
-                buttonName.style.height="69px";
+                buttonName.style.width="8em";
+                buttonName.style.height="4em";
                 buttonName.style.borderRadius="5px";
                 buttonName.style.backgroundColor="#901C1C"
                 buttonName.style.fontWeight="700";
                 buttonName.style.color="white"
-                buttonName.style.fontSize="20px"
+                buttonName.style.fontSize="1.2em"
                 buttonName.style.cursor="pointer"}
                 
                 buttonCreate(buttonContact)
 
+               
 
                 //construction de la modal
 
@@ -366,7 +387,8 @@ const getData = async function  () {
                  boxTri.style.display="flex"
                  boxTri.style.justifyContent="flex-start"
                  boxTri.style.gap="1.5em"
-                
+                 boxTri.style.marginLeft="2em"
+                 boxTri.style.marginTop="2em"    
                  boxTri.appendChild(textTri).innerText="Trier par"
                  textTri.tabIndex="7"
                 boxTri.appendChild(listeTri)
@@ -433,15 +455,17 @@ const getData = async function  () {
                         box.setAttribute("alt", media[p].title)
                                               
                       
+                        
+                        function pictVid () {
                         box.appendChild(picture).src= "img/"+media[p].image
                         
                         if (media[p].image== undefined){
                             box.removeChild(picture)
                             box.appendChild(video).src="img/"+media[p].video
                             
-                        }
+                        } }
                        
-                    
+                        pictVid()
                       
                         video.style.width="100%"
                         video.style.height="100%"
@@ -499,10 +523,38 @@ const getData = async function  () {
                      box.className.replace("-","")                    
                      box.id=media[p].title
                      
-                   
+                     window.addEventListener("resize", resizePage)
+
+
+                     //Partie Responsive
+                     function resizePage() {
+                     if(window.innerWidth<1250) {
+                        main.style.padding="2em"
+                                             
+                        createDiv.style.backgroundColor="white"
+                         buttonContact.style.position="fixed"
+                         buttonContact.style.bottom="5%"
+                         buttonContact.style.left="40%"
+                         buttonContact.style.fontSize="1.5em"
+                         container.style.flexDirection="column"                        
+                         box.style.width="100%"
+                         box.style.height="500px"
+                         box.style.fontSize="1.5em"
+                         Nom.style.fontSize="2em"
+                         Lieu.style.fontSize="1.5em"
+                         TagLine.style.fontSize="1.5em"
+                         boxTags.style.fontSize="1.5em"
+                         boxTri.style.fontSize="1.5em"
+ 
+                     } else {
+                        
+                     }
+                     }
                      
                         //on créer les filtres de présentation des photos
-                       
+                        listeTri.addEventListener("focus", (e)=> {
+                            listeTri.style.backgroundColor="#D3573C"
+                        })
                         listeTri.addEventListener("input", (e)=> {
                             
                               {
@@ -560,34 +612,41 @@ const getData = async function  () {
                 slidesVisible:3
             }, options) 
 
-            let children = [].slice.call(element.children)
+            let children = [].slice.call(document.querySelector("#container").children)
+            console.log(children)
           this.currentItem = 0
-           this.root = this.createDivWithClass("carousel")
-           this.panorama = this.createDivWithClass('carousel__container')
+           this.root = this.createDivWithClass("carousel", "div")
+           this.panorama = this.createDivWithClass('carousel__container', "div")
            
            this.root.appendChild(this.panorama)
            this.element.appendChild(this.root)
             console.log(children.map)
          this.items = children.map((child) => {
-               let item = this.createDivWithClass("carousel__item")
+               let item = this.createDivWithClass("carousel__item", "div")
             
                item.appendChild(child)              
-               child.style.width=window.innerWidth-150+"px"
+               child.style.width=window.innerWidth-450+"px"
                child.style.height=window.innerHeight-50+"px"
+              
+                    child.style.marginLeft="7.5em"
                 console.log(this.items)
+               
                 window.addEventListener("resize", (e)=>{
 
-                    child.style.width=window.innerWidth-150+"px"
-                    child.style.height=window.innerHeight-50+"px"
+                    child.style.width=window.innerWidth-350+"px"
+                    child.style.height=window.innerWidth-350+"px"
+                    child.style.marginTop=(window.innerHeight-550)/2+"px"
+                    child.style.marginLeft="2.5em"
+                    
                     
                 })
-               
               
                 this.panorama.appendChild(item)
                 return item
             })
             this.setStyle()
             this.createNavigation()
+            this.closeNavigation()
            console.log("ok")
          
         } 
@@ -602,16 +661,47 @@ const getData = async function  () {
             this.items.forEach(item => item.style.width =((100 / this.options.slidesVisible) / ratio) + "%")
             
         }
+        closeNavigation () {
+            let closeButton = this.createDivWithClass("fas fa-times", "i")
+            this.root.appendChild(closeButton)
+            closeButton.style.fontSize="5em"
+           
+            closeButton.style.color="#911C1C"
+            closeButton.style.top="0"
+            closeButton.style.right="10%"
+            closeButton.style.position="absolute"
+            closeButton.addEventListener("click", (e)=> {
+                
+              modal_carousel.style.display="none"
+               main.style.display="block"   
+              
+            }
+            )
+            
+        }
 
         createNavigation () {
 
-            let nextButton = this.createDivWithClass('carousel__next')
-            let prevButton = this.createDivWithClass('carousel__prev')
+            let nextButton = this.createDivWithClass('fas fa-chevron-right', "i")
+            let prevButton = this.createDivWithClass('fas fa-chevron-left', "i")
             this.root.appendChild(nextButton)
             this.root.appendChild(prevButton)
             nextButton.style.marginTop=(window.innerHeight-150)/2+"px"
             prevButton.style.marginTop=(window.innerHeight-150)/2+"px"
+            nextButton.style.color="#911C1C"
+            nextButton.style.position="absolute"
+            nextButton.style.top="0"
+            
+            nextButton.style.fontSize="5em"
             nextButton.style.right="10%"
+            prevButton.style.left="0"
+            prevButton.style.top="0"
+            prevButton.style.color="#911C1C"
+            prevButton.style.position="absolute"
+            prevButton.style.fontSize="5em"
+
+           
+           
 
             
             nextButton.addEventListener("click", this.next.bind(this) )
@@ -655,8 +745,8 @@ const getData = async function  () {
          * @returns {HTMLElement}
          */
 
-        createDivWithClass (className) {
-            let div = document.createElement('div')
+        createDivWithClass (className, balise) {
+            let div = document.createElement(balise)
             div.setAttribute('class', className)
             return div
 
@@ -668,17 +758,18 @@ const getData = async function  () {
      video.addEventListener('click', launchCarousel)
 
      function launchCarousel() {
-        
-    body.removeChild(main)
-    body.appendChild(container)
-    body.removeChild(boxFixe)
-    body.style.overflow="hidden"
-    body.style.marginLeft="5em"
-    body.style.display="flex"
-    body.style.justifyContent="center"
+        const modal_carousel = document.createElement("aside")
+        body.appendChild(modal_carousel)
+        modal_carousel.style.position="absolute"
+        modal_carousel.style.zIndex="3"
+        main.style.display="none"
+        body.style.marginTop="5em"
+        body.style.margin="4em"
+        body.style.overflow="hidden"
+        body.removeChild(boxFixe)
     
 
-      new Carousel (document.querySelector("#container"), {
+      new Carousel (modal_carousel, {
 
         slidesToScroll:1,
         slidesVisible:1,
