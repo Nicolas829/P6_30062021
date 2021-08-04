@@ -119,7 +119,7 @@ const getData = async function  () {
 
                 }
                 
-
+                
 
 
 
@@ -141,11 +141,7 @@ const getData = async function  () {
                 box1.style.marginLeft="4em"
                 box1.style.gap="1em"
                 
-                Nom.tabIndex="2"
-                Lieu.tabIndex="3"
-                TagLine.tabIndex="4"
-                box2.tabIndex="5"
-                box3.tabIndex="7"
+             
                 Photo.setAttribute("alt", "photo de"+photographers[i].name)
 
                 box2.style.display="flex"
@@ -162,7 +158,7 @@ const getData = async function  () {
                 Nom.style.color="#D3573C";
                 Nom.style.fontSize="36px";
                 Nom.style.fontWeight="400";
-                Nom.tabIndex="2"
+               
                 //lieu
                 Lieu.style.color="#901C1C";
                 Lieu.style.fontWeight="500";
@@ -197,21 +193,20 @@ const getData = async function  () {
                 modal.style.position="absolute"
                 //Div modal
                 modal.style.backgroundColor="#DB8876"
-                modal.style.boxSizing="border-box"
-                modal.style.margingRight="10em"
-                modal.style.marginLeft="10em"
-                modal.style.width="70em"
-                modal.style.top="5em"
-                modal.style.left="20%"
-                modal.style.height="100em"
+                modal.style.boxSizing="border-box"                   
+                modal.style.width=window.innerWidth/2+"px"
+                modal.style.top="5%"
+                modal.style.left="25%"
+                modal.style.height=window.innerHeigth/2+"px"
                 modal.style.radius="5px"
-                modal.style.display="flex"               
-                modal.style.margin="0 auto"
+                modal.style.display="flex"                          
                 modal.style.flexDirection="column"
                 modal.style.display="none"
                 modal.style.padding="4em"
                 modal.style.paddingTop="0"                
                 modal.style.color="#312E2E"
+                modal.style.transition="opacity 4s"
+              
 
                 //const des elements de la modal
                 const textEtClose=document.createElement("div")
@@ -241,21 +236,25 @@ const getData = async function  () {
                 prenom.style.marginTop="0.1em"
                 prenom.innerText="Prénom"
                 prenom.style.fontSize="4em"
-                form.appendChild(inputPrenom).tabIndex="2"
+                form.appendChild(inputPrenom)
+                
                 form.appendChild(nom)
                 nom.innerText="Nom"
                 nom.style.fontSize="4em"
-                form.appendChild(inputNom).tabIndex="3" 
+                form.appendChild(inputNom)
+                
 
                 form.appendChild(email)
                 email.innerText="email"
                 email.style.fontSize="4em"
-                form.appendChild(inputEmail).tabIndex="4" 
+                form.appendChild(inputEmail)
+                
                
                 form.appendChild(message)
                 message.innerText="Votre Message"
                 message.style.fontSize="4em"
-                form.appendChild(inputMessage).tabIndex="5"              
+                form.appendChild(inputMessage)
+                             
                 form.appendChild(envoi)
 
                 
@@ -272,7 +271,13 @@ const getData = async function  () {
                     modal.style.display="none";
                     main.style.filter="none"
                 })
-
+                close.addEventListener("keydown", (e)=> {
+                    if (e.target==="Escape"){
+                        modal.style.display="none";
+                        main.style.filter="none"
+                    }
+                })
+                console.log("keypress")
                 //on habille les input
                 function inputStyle (input) {
 
@@ -359,8 +364,8 @@ const getData = async function  () {
                 const openModal= function (e) {
                     modal.style.display="flex"
                     modal.style.opacity="1";
-                    modal.style.transition="opacity 1s"
-                   main.style.filter="blur(4px)"
+                  
+                    main.style.filter="blur(4px)"
                     
                 }
 
@@ -371,7 +376,8 @@ const getData = async function  () {
                 /************************* */
 
                
-                    
+
+              
                   
                  //création des element de filtres pour tri des photos
                  let boxTri = document.createElement("div")
@@ -390,7 +396,7 @@ const getData = async function  () {
                  boxTri.style.marginLeft="2em"
                  boxTri.style.marginTop="2em"    
                  boxTri.appendChild(textTri).innerText="Trier par"
-                 textTri.tabIndex="7"
+                
                 boxTri.appendChild(listeTri)
 
                 listeTri.style.backgroundColor="#901C1C"
@@ -398,7 +404,7 @@ const getData = async function  () {
                 listeTri.style.borderRadius="5px"
                 listeTri.style.width="170px"
                 listeTri.style.fontWeight="700"               
-                listeTri.tabIndex="8"
+                
                                 
                 listeTri.appendChild(popularite).innerText="popularité"
                 listeTri.appendChild(date).innerText="Date"
@@ -451,7 +457,7 @@ const getData = async function  () {
                         box.style.width="30%"
                         box.style.height="300px"
                         box.style.alignItems="center"
-                        box.tabIndex="9"+i
+                       
                         box.setAttribute("alt", media[p].title)
                                               
                       
@@ -561,14 +567,14 @@ const getData = async function  () {
                                     if(listeTri.value== "popularité") {
                                         
                                         box.style.order="-"+media[p].likes
-                                        box.tabIndex=media[p].likes 
+                                        
                                        
                                    }
                             }
                                     if (listeTri.value=="Date"){
                                        
                                         box.style.order="-"+box.className.replace("-","")
-                                        box.tabIndex=box.className.replace("-","")
+                                       
                                     }
 
                                     if (listeTri.value=="Titre") {
@@ -577,13 +583,29 @@ const getData = async function  () {
                                             box.id.replace(" ","")
                                            box.style.order=box.id.charCodeAt()
                                            box.style.order+=box.id[j].charCodeAt()
-                                         box.tabIndex=box.id.charCodeAt()
-                                         box.tabIndex+=box.id[j].charCodeAt()
+                                        
                                         }
                                     }
 
                         })
+
+
+                       //TabIndex
+                       Nom.tabIndex="2"
                        
+                       Lieu.tabIndex="3"
+                       TagLine.tabIndex="4"                       
+                       Photo.tabIndex="9"
+                       buttonContact.tabIndex="8"
+                       inputPrenom.tabIndex="9"
+                        inputNom.tabIndex="10" 
+                        inputEmail.tabIndex="11" 
+                        inputMessage.tabIndex="12" 
+                        textTri.tabIndex="13"
+                        listeTri.tabIndex="14"
+                        box.tabIndex="15"+i
+                        
+
 
                         priceBoxFixe.innerText=photographers[i].price+"€/jour"
                                                     
@@ -608,20 +630,19 @@ const getData = async function  () {
                     
             this.element = element
             this.options = Object.assign ({}, {
-                slidesToScroll:3,
-                slidesVisible:3
+               
             }, options) 
 
             let children = [].slice.call(document.querySelector("#container").children)
-            console.log(children)
-          this.currentItem = 0
+           
+           this.currentItem = 0
            this.root = this.createDivWithClass("carousel", "div")
            this.panorama = this.createDivWithClass('carousel__container', "div")
            
            this.root.appendChild(this.panorama)
            this.element.appendChild(this.root)
-            console.log(children.map)
-         this.items = children.map((child) => {
+            
+           this.items = children.map((child) => {
                let item = this.createDivWithClass("carousel__item", "div")
             
                item.appendChild(child)              
@@ -647,7 +668,7 @@ const getData = async function  () {
             this.setStyle()
             this.createNavigation()
             this.closeNavigation()
-           console.log("ok")
+           
          
         } 
         /**
@@ -671,10 +692,8 @@ const getData = async function  () {
             closeButton.style.right="10%"
             closeButton.style.position="absolute"
             closeButton.addEventListener("click", (e)=> {
-                
-              modal_carousel.style.display="none"
-               main.style.display="block"   
-              
+                             
+              window.location.reload()
             }
             )
             
@@ -730,8 +749,15 @@ const getData = async function  () {
          */
 
         gotToItem (index) {
+            if (index < 0){
+                index = this.items.length - this.options.slidesToScroll
+
+            }
+            if (index>=this.items.length){
+                index = 0
+            }
             let translateX= index * -100/ this.items.length
-           
+           console.log(index)
             this.panorama.style.transform ="translate3d(" + translateX + "%,0,0)";
             this.currentItem = index
            
@@ -760,13 +786,16 @@ const getData = async function  () {
      function launchCarousel() {
         const modal_carousel = document.createElement("aside")
         body.appendChild(modal_carousel)
-        modal_carousel.style.position="absolute"
-        modal_carousel.style.zIndex="3"
-        main.style.display="none"
+        
+       
+        main.style.display="none"  
+        boxFixe.style.display="none"           
         body.style.marginTop="5em"
         body.style.margin="4em"
         body.style.overflow="hidden"
-        body.removeChild(boxFixe)
+       console.log(picture.innerText)
+      
+        
     
 
       new Carousel (modal_carousel, {
