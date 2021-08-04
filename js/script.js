@@ -44,7 +44,7 @@ for (let p=0;p<liButton.length;p++ ){
 }
 //on va chercher le JSON
 const getData = async function  () {
-  let response = await fetch ("/FishEyeData.json")
+  let response = await fetch ("/js/FishEyeData.json")
   let data = await response.json ()
   
   let media=data.media;
