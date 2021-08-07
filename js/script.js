@@ -114,6 +114,7 @@ const getData = async function  () {
     box.style.width="25%";
     box.style.cursor="pointer";
     
+    resizePage()
     window.addEventListener("resize", resizePage)
     function resizePage() {
       if(window.innerWidth<1200) {

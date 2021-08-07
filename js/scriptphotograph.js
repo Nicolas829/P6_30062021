@@ -523,12 +523,13 @@ const getData = async function  () {
                      box.className.replace("-","")                    
                      box.id=media[p].title
                      
+                     resizePage()
                      window.addEventListener("resize", resizePage)
 
 
                      //Partie Responsive
                      function resizePage() {
-                     if(window.innerWidth<1250) {
+                     if(matchMedia("(max-width:1250px)").matches) {
                         main.style.padding="2em"
                                              
                         createDiv.style.backgroundColor="white"
@@ -649,15 +650,7 @@ const getData = async function  () {
                child.style.marginLeft="7.5em"
               
                
-                window.addEventListener("resize", (e)=>{
-
-                    child.style.width=window.innerWidth-350+"px"
-                    child.style.height=window.innerWidth-350+"px"
-                    child.style.marginTop=(window.innerHeight-550)/2+"px"
-                    child.style.marginLeft="2.5em"
-                   
-                    
-                })
+             
               
                 this.panorama.appendChild(item)
                 return item
