@@ -44,7 +44,7 @@ for (let p=0;p<liButton.length;p++ ){
 }
 //on va chercher le JSON
 const getData = async function  () {
-  let response = await fetch ("/../../js/FishEyeData.json")
+  let response = await fetch ("/../js/FishEyeData.json")
   let data = await response.json ()
   
   let media=data.media;
@@ -208,25 +208,19 @@ const getData = async function  () {
 //on lance la  page des photograph au clic
 
      a.addEventListener('click', (e)=>{       
-        open(url, '_self', false)   ;
+   
+      open(url, '_self', false)   ;
       
   })
 
 
 
-//on crée les pages individuelle pour les photographes
 
-function createPhotograph () {
-  let result =location.href.indexOf(photographers[i]);
-  console.log(result)
-    if (location.search=="?"+photographers[i].name)
-    
-    {console.log("ok")
-  }
-}
+
+
 
 }};
-createPhotograph()
+
 }
 
     getData()

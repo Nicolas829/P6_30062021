@@ -271,13 +271,7 @@ const getData = async function  () {
                     modal.style.display="none";
                     main.style.filter="none"
                 })
-                close.addEventListener("keydown", (e)=> {
-                    if (e.target==="Escape"){
-                        modal.style.display="none";
-                        main.style.filter="none"
-                    }
-                })
-                console.log("keypress")
+             
                 //on habille les input
                 function inputStyle (input) {
 
@@ -622,6 +616,8 @@ const getData = async function  () {
          * @param {Object} options
          * @param {Object} options, slidesToScroll nombre d'elements à faire défiler.
          * @param {Object} options, slidesVisible nombre d'elements visible
+         * @param {boolean} options.pagination=false
+         * @param {boolean} options.navigation=true
          *          
          */
           
@@ -630,6 +626,7 @@ const getData = async function  () {
                     
             this.element = element
             this.options = Object.assign ({}, {
+
                
             }, options) 
 
@@ -638,19 +635,19 @@ const getData = async function  () {
            this.currentItem = 0
            this.root = this.createDivWithClass("carousel", "div")
            this.panorama = this.createDivWithClass('carousel__container', "div")
-           
+           this.panorama.style.marginTop="4em"
            this.root.appendChild(this.panorama)
            this.element.appendChild(this.root)
             
            this.items = children.map((child) => {
+           
                let item = this.createDivWithClass("carousel__item", "div")
-            
+           
                item.appendChild(child)              
                child.style.width=window.innerWidth-450+"px"
                child.style.height=window.innerHeight-50+"px"
+               child.style.marginLeft="7.5em"
               
-                    child.style.marginLeft="7.5em"
-                console.log(this.items)
                
                 window.addEventListener("resize", (e)=>{
 
@@ -658,16 +655,19 @@ const getData = async function  () {
                     child.style.height=window.innerWidth-350+"px"
                     child.style.marginTop=(window.innerHeight-550)/2+"px"
                     child.style.marginLeft="2.5em"
-                    
+                   
                     
                 })
               
                 this.panorama.appendChild(item)
                 return item
             })
+             
+           
             this.setStyle()
             this.createNavigation()
             this.closeNavigation()
+            this.createPagination()
            
          
         } 
@@ -697,6 +697,22 @@ const getData = async function  () {
             }
             )
             
+        }
+
+        /** créer la pagination dans le DOm */
+        createPagination () {
+          
+            for (let i =0; i <this.items.length;i ++) {
+               console.log(this.items[i].children[0].id)
+                if (location.hash.replace("#","") == this.items[i].children[0].id.replace(/ /g,"")) {
+                    console.log(i)
+                    this.gotToItem(i)
+                   console.log(this.gotToItem)
+
+                }
+              
+            }
+
         }
 
         createNavigation () {
@@ -743,6 +759,10 @@ const getData = async function  () {
             this.gotToItem(this.currentItem - this.options.slidesToScroll)
         }
 
+       
+
+     
+
         /**
          * deplace le carousel vers l'element cible
          * @param {number} index 
@@ -759,8 +779,7 @@ const getData = async function  () {
             let translateX= index * -100/ this.items.length
            console.log(index)
             this.panorama.style.transform ="translate3d(" + translateX + "%,0,0)";
-            this.currentItem = index
-           
+            this.currentItem = index           
 
         }
 
@@ -772,36 +791,42 @@ const getData = async function  () {
          */
 
         createDivWithClass (className, balise) {
-            let div = document.createElement(balise)
-            div.setAttribute('class', className)
-            return div
+            let Balise = document.createElement(balise)
+            Balise.setAttribute('class', className)
+            return Balise
 
         }
        
         
       } 
-     picture.addEventListener('click', launchCarousel)
+
+     picture.addEventListener('click', launchCarousel )
      video.addEventListener('click', launchCarousel)
 
-     function launchCarousel() {
+     function launchCarousel(e) {
+       location.hash=e.target.parentNode.id.replace(/ /g,"")
         const modal_carousel = document.createElement("aside")
+       
+        
         body.appendChild(modal_carousel)
         
-       
+        console.log(location.hash.replace("#",""))
         main.style.display="none"  
         boxFixe.style.display="none"           
-        body.style.marginTop="5em"
-        body.style.margin="4em"
+        body.style.marginLeft="4em"
         body.style.overflow="hidden"
-       console.log(picture.innerText)
+      
       
         
     
 
       new Carousel (modal_carousel, {
 
+        
         slidesToScroll:1,
         slidesVisible:1,
+        pagination :true,
+        
 
       })
     }
