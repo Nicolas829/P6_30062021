@@ -122,7 +122,7 @@ ul {
 
 
 .carousel {
-  position: relative;
+  position: fixed;
   overflow:hidden;   
   
 }
@@ -137,12 +137,7 @@ ul {
   transition: transform 0.3s;
 }
 
-.carousel__container::after {
-content:"";
-clear:both;
 
-
-}
 
 
  

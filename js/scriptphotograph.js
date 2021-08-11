@@ -41,11 +41,20 @@ let priceBoxFixe=document.createElement("p")
 body.appendChild(boxFixe)
 
 
+//function focus color
+function focusElement (element){
+    element.addEventListener("focus", (e)=> {
+       element.style.backgroundColor="#D3573C"
+    })
+    element.addEventListener("blur", (e)=> {
+        element.style.backgroundColor="#901C1C"
+    })}
+
+
 //creation de la boxFixe
 
 boxFixe.appendChild(totalLike)
 boxFixe.appendChild(heartFixe)
-
 boxFixe.appendChild(priceBoxFixe)
 
 
@@ -79,7 +88,7 @@ const getData = async function  () {
     let photographers=data.photographers; 
     const boxFilter = [];
 
-
+   
     
 
     //création de l'encart Photographe
@@ -116,11 +125,19 @@ const getData = async function  () {
                     Tags.classList.add(Tags.textContent)
                     Tags.width="auto";
                     Tags.tabIndex="6"
-
+                    focusElement()
+                    function focusElement (element){
+                        Tags.addEventListener("focus", (e)=> {
+                           Tags.style.backgroundColor="#D3573C"
+                        })
+                       Tags.addEventListener("blur", (e)=> {
+                            Tags.style.backgroundColor="White"
+                        })}
+                    
                 }
                 
                 
-
+                
 
 
                 //encart de présentation divisé en trois box
@@ -180,7 +197,8 @@ const getData = async function  () {
                 buttonName.style.fontWeight="700";
                 buttonName.style.color="white"
                 buttonName.style.fontSize="1.2em"
-                buttonName.style.cursor="pointer"}
+                buttonName.style.cursor="pointer"
+            focusElement(buttonName)}
                 
                 buttonCreate(buttonContact)
 
@@ -221,7 +239,7 @@ const getData = async function  () {
                 const email=document.createElement("p")
                 const message=document.createElement("p")
                 const envoi=document.createElement("button")
-                const input=document.querySelectorAll("input")
+               
                 const form= document.createElement("form")
                 
                 form.style.display="flex"
@@ -358,8 +376,15 @@ const getData = async function  () {
                 const openModal= function (e) {
                     modal.style.display="flex"
                     modal.style.opacity="1";
-                  
+                    modal.focus()
                     main.style.filter="blur(4px)"
+                    modal.style.tabIndex="1"
+                    inputPrenom.tabIndex="8"
+                    inputNom.tabIndex="9" 
+                    inputEmail.tabIndex="10" 
+                    inputMessage.tabIndex="11" 
+                    envoi.tabIndex="12"
+                    close.tabIndex="13"
                     
                 }
 
@@ -397,22 +422,20 @@ const getData = async function  () {
                 listeTri.style.color="white"
                 listeTri.style.borderRadius="5px"
                 listeTri.style.width="170px"
-                listeTri.style.fontWeight="700"               
-                
+                listeTri.style.fontWeight="700"    
+                listeTri.style.display="flex"    
+                listeTri.style.gap="10em"       
+                listeTri.setAttribute("aria-haspopup", "true")
+                listeTri.setAttribute("aria-expanded", "false")
                                 
-                listeTri.appendChild(popularite).innerText="popularité"
+                listeTri.appendChild(popularite).innerText="Popularité"
+              
                 listeTri.appendChild(date).innerText="Date"
-                listeTri.appendChild(titre).innerText="Titre"
-               
-               
-               
-
-              
-
-              
+                listeTri.appendChild(titre).innerText="Titre"      
+  
                 textTri.style.fontWeight="700"
-
-
+                focusElement(listeTri)
+               
                 //partie container photos
                for (let p=0;p<media.length;p++)
                 
@@ -454,7 +477,14 @@ const getData = async function  () {
                        
                         box.setAttribute("alt", media[p].title)
                                               
-                      
+                      box.addEventListener("focus", (e)=>{
+                         box.style.transform='scale(1.05)'
+                          console.log(picture)
+                      })
+                      box.addEventListener("blur", (e)=>{
+                        box.style.transform='scale(1)'
+                         console.log(picture)
+                     })
                         
                         function pictVid () {
                         box.appendChild(picture).src= "img/"+media[p].image
@@ -546,16 +576,17 @@ const getData = async function  () {
                          TagLine.style.fontSize="1.5em"
                          boxTags.style.fontSize="1.5em"
                          boxTri.style.fontSize="1.5em"
- 
+                         modal.style.width="100%"
+                         modal.style.top="0"
+                         modal.style.left="0"
+                        
                      } else {
                         
                      }
                      }
                      
                         //on créer les filtres de présentation des photos
-                        listeTri.addEventListener("focus", (e)=> {
-                            listeTri.style.backgroundColor="#D3573C"
-                        })
+                       
                         listeTri.addEventListener("input", (e)=> {
                             
                               {
@@ -592,10 +623,7 @@ const getData = async function  () {
                        TagLine.tabIndex="4"                       
                        Photo.tabIndex="9"
                        buttonContact.tabIndex="8"
-                       inputPrenom.tabIndex="9"
-                        inputNom.tabIndex="10" 
-                        inputEmail.tabIndex="11" 
-                        inputMessage.tabIndex="12" 
+                      
                         textTri.tabIndex="13"
                         listeTri.tabIndex="14"
                         box.tabIndex="15"+i
@@ -644,10 +672,11 @@ const getData = async function  () {
            
                let item = this.createDivWithClass("carousel__item", "div")
            
-               item.appendChild(child)              
-               child.style.width=window.innerWidth-450+"px"
-               child.style.height=window.innerHeight-50+"px"
-               child.style.marginLeft="7.5em"
+               item.appendChild(child)  
+                      
+               child.style.width=window.innerWidth-400+"px"
+               child.style.height=window.innerHeight-100+"px"
+               
               
                
              
@@ -660,13 +689,24 @@ const getData = async function  () {
             this.setStyle()
             this.createNavigation()
             this.closeNavigation()
-            this.createPagination()
+            this.goToIndexOnClick()
            
+            window.addEventListener("keyup", (e)=>{
+                if(e.key=="ArrowRight"){
+                   this.next()}
+                if(e.key=="ArrowLeft"){
+                    this.prev()}
+                if(e.key=="Escape"){
+                    window.location.reload()
+                }
+                } )
          
         } 
         /**
          * applique les bonnes dimensions aux élements du carousel
          */
+
+        //evenement
         
 
         setStyle () {
@@ -682,25 +722,26 @@ const getData = async function  () {
            
             closeButton.style.color="#911C1C"
             closeButton.style.top="0"
-            closeButton.style.right="10%"
-            closeButton.style.position="absolute"
+            closeButton.style.right="5%"
+            closeButton.style.position="fixed"
             closeButton.addEventListener("click", (e)=> {
-                             
+                
+              console.log(location.href)
               window.location.reload()
             }
             )
             
         }
 
-        /** créer la pagination dans le DOm */
-        createPagination () {
+        /** créer la recherche de la picture dans l'index  */
+       goToIndexOnClick () {
           
             for (let i =0; i <this.items.length;i ++) {
                console.log(this.items[i].children[0].id)
                 if (location.hash.replace("#","") == this.items[i].children[0].id.replace(/ /g,"")) {
-                    console.log(i)
-                    this.gotToItem(i)
-                   console.log(this.gotToItem)
+                    
+                                       
+                  this.gotToItem(i)
 
                 }
               
@@ -714,18 +755,19 @@ const getData = async function  () {
             let prevButton = this.createDivWithClass('fas fa-chevron-left', "i")
             this.root.appendChild(nextButton)
             this.root.appendChild(prevButton)
-            nextButton.style.marginTop=(window.innerHeight-150)/2+"px"
-            prevButton.style.marginTop=(window.innerHeight-150)/2+"px"
+            nextButton.style.marginTop=(window.innerHeight-100)/2+"px"
+            prevButton.style.marginTop=(window.innerHeight-100)/2+"px"
+            
             nextButton.style.color="#911C1C"
-            nextButton.style.position="absolute"
+            nextButton.style.position="fixed"
             nextButton.style.top="0"
             
             nextButton.style.fontSize="5em"
-            nextButton.style.right="10%"
-            prevButton.style.left="0"
+            nextButton.style.right="5%"
+            prevButton.style.left="5%"
             prevButton.style.top="0"
             prevButton.style.color="#911C1C"
-            prevButton.style.position="absolute"
+            prevButton.style.position="fixed"
             prevButton.style.fontSize="5em"
 
            
@@ -734,11 +776,12 @@ const getData = async function  () {
             
             nextButton.addEventListener("click", this.next.bind(this) )
             prevButton.addEventListener("click", this.prev.bind(this) )
+          
             window.addEventListener("resize", (e)=>{
 
                
                 nextButton.style.marginTop=(window.innerHeight-150)/2+"px"
-                 prevButton.style.marginTop=(window.innerHeight-150)/2+"px"
+                prevButton.style.marginTop=(window.innerHeight-150)/2+"px"
             })
         } 
     
@@ -792,21 +835,42 @@ const getData = async function  () {
        
         
       } 
+     box.addEventListener("keyup", (e)=> {
+        if ((e).key=='Enter') {
+        main.style.display="none"  
+        boxFixe.style.display="none"  
+        location.hash=e.target.id.replace(/ /g,"")
+        const modal_carousel = document.createElement("aside")        
+        body.appendChild(modal_carousel)        
+                
+        body.style.marginLeft="12em"
+        body.style.overflow="hidden"
+        new Carousel (modal_carousel, {
 
+        
+            slidesToScroll:1,
+            slidesVisible:1,
+            pagination :true,
+            
+    
+          })
+            
+           }
+        })
      picture.addEventListener('click', launchCarousel )
      video.addEventListener('click', launchCarousel)
+     
+     
 
      function launchCarousel(e) {
-       location.hash=e.target.parentNode.id.replace(/ /g,"")
-        const modal_carousel = document.createElement("aside")
-       
-        
-        body.appendChild(modal_carousel)
-        
-        console.log(location.hash.replace("#",""))
         main.style.display="none"  
-        boxFixe.style.display="none"           
-        body.style.marginLeft="4em"
+        boxFixe.style.display="none"  
+       location.hash=e.target.parentNode.id.replace(/ /g,"")
+        const modal_carousel = document.createElement("aside")        
+        body.appendChild(modal_carousel)       
+       
+                
+        body.style.marginLeft="12em"
         body.style.overflow="hidden"
       
       

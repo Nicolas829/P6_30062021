@@ -15,17 +15,61 @@ let listItem = document.createElement('div');
 const photographersData=[]
 const liButton= document.querySelectorAll("li");
 const tagsButton= document.getElementsByClassName("tags");
+const contenu= document.createElement("a")
 
 
+//création de la div passer au contenu
+ body.appendChild(contenu)
+
+contenu.style.borderRadius="5px"
+contenu.style.justifyContent="center"
+contenu.style.alignItems="center"
+contenu.style.fontSize="1.5em"  
+contenu.style.cursor="pointer"
+contenu.style.top="0"
+contenu.style.left="45%"
+contenu.style.width="10em"
+contenu.style.height="2em"
+contenu.style.position="fixed"
+contenu.style.fontWeight="700"
+ contenu.style.backgroundColor="#DB8876"
+ contenu.innerText="Passer au contenu"
+ 
+ contenu.style.color="#000000"
+ contenu.style.display="none"
+ contenu.addEventListener("click", (e)=> {
+  contenu.style.display="none"
+  contenu.href="#container_photograph"
+})
+ //on le fait apparaître au scroll
+ window.addEventListener('scroll',function(e) {
+ 
+  contenu.style.display="flex"
+})
+
+
+//function focus
+function focusElement (element, fontColorFocus, bgColorBlur, fontColorBlur){
+ 
+  element.addEventListener("focus", (e)=> {
+     element.style.backgroundColor="#DB8876"
+     element.style.color=fontColorFocus
+  })
+  element.addEventListener("blur", (e)=> {
+    element.style.backgroundColor=bgColorBlur
+    element.style.color=fontColorBlur
+})
+ }
 
 //création de la div présentation des photographes
 main.appendChild(createDiv)
 
-createDiv.classList.add("photographer");
+createDiv.classList.add("photographer")
+createDiv.setAttribute("id", "container_photograph");
 const photoClass= document.getElementsByClassName('photographers')
 let divStyle=createDiv.style;
 divStyle.display="flex";
-divStyle.justifyContent="center";
+divStyle.justifyContent="flex-start";
 divStyle.columnGap="11em";
 divStyle.rowGap="10em";
 divStyle.boxSizing="border-box";
@@ -40,8 +84,10 @@ divStyle.flexFlow="row wrap"
 for (let p=0;p<liButton.length;p++ ){
 
   liButton[p].classList.add(liButton[p].innerText)
+ focusElement(liButton[p], "black", "white","#911C1C" )
  
 }
+
 //on va chercher le JSON
 const getData = async function  () {
   let response = await fetch ("js/FishEyeData.json")
@@ -173,6 +219,7 @@ const getData = async function  () {
       Tags.classList.add(Tags.textContent)
       Tags.width="auto";
       Tags.tabIndex=i+"13"
+      focusElement(Tags, "black", "white","#911C1C" )
 
     
   
@@ -198,7 +245,8 @@ const getData = async function  () {
           box.style.display="none"                      
         }
         else{         
-          box.style.display="flex"       
+          box.style.display="flex"    
+          
         }     
      
   }      
@@ -213,8 +261,19 @@ const getData = async function  () {
       open(url, '_self', false)   ;
       
   })
+  a.addEventListener('keypress', (e)=>{   
 
+   if ((e).keyCode==0xD){
+    open(url, '_self', false)   ;}
+    
+})
 
+h1.addEventListener('keypress', (e)=>{   
+
+  if ((e).keyCode==0xD){
+   open("index.html", '_self', false)   ;}
+   
+})
 
 
 
