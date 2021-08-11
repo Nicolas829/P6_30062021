@@ -198,8 +198,8 @@ const getData = async function  () {
                 buttonName.style.color="white"
                 buttonName.style.fontSize="1.2em"
                 buttonName.style.cursor="pointer"
-            focusElement(buttonName)}
                 
+                focusElement(buttonName)}                
                 buttonCreate(buttonContact)
 
                
@@ -224,7 +224,9 @@ const getData = async function  () {
                 modal.style.paddingTop="0"                
                 modal.style.color="#312E2E"
                 modal.style.transition="opacity 4s"
-              
+                //on ferme le formulaire avec le clavier "touche escape"
+                window.addEventListener("keyup", e=>{ 
+               if (e.key=="Escape") {closeModal()}})
 
                 //const des elements de la modal
                 const textEtClose=document.createElement("div")
@@ -238,10 +240,10 @@ const getData = async function  () {
                 const nom=document.createElement("p")
                 const email=document.createElement("p")
                 const message=document.createElement("p")
-                const envoi=document.createElement("button")
-               
+                const envoi=document.createElement("button")               
                 const form= document.createElement("form")
-                
+
+                       
                 form.style.display="flex"
                 form.style.flexDirection="column"
 
@@ -273,9 +275,7 @@ const getData = async function  () {
                 message.style.fontSize="4em"
                 form.appendChild(inputMessage)
                              
-                form.appendChild(envoi)
-
-                
+                form.appendChild(envoi)               
                 
 
                 textEtClose.style.display="flex";
@@ -285,9 +285,9 @@ const getData = async function  () {
                 close.innerText="X"
                 close.style.cursor="pointer"
                 close.style.color="white"
-                close.addEventListener("click", (e)=> {
-                    modal.style.display="none";
-                    main.style.filter="none"
+                close.addEventListener("click", closeModal)
+                close.addEventListener("keyup", e=> {
+                    if(e.key=="Enter"){closeModal()}
                 })
              
                 //on habille les input
@@ -305,6 +305,12 @@ const getData = async function  () {
                 inputStyle(inputNom)
                 inputStyle(inputEmail)
                 inputStyle(inputMessage)
+
+                //function fermeture de la modal
+                function closeModal () {
+                    modal.style.display="none";
+                    main.style.filter="none"
+                }
                          
                 //champ de message
                 inputMessage.style.height="150px"               
@@ -368,7 +374,10 @@ const getData = async function  () {
                 
                 //click envoi formulaire
                 envoi.addEventListener("click", sendForm)
-                   
+                //envoi du formulaire au clavier
+                envoi.addEventListener("keyup", e=> {
+                    if(e.key=="Enter"){sendForm()}
+                })
                     
                     
                 
@@ -392,9 +401,7 @@ const getData = async function  () {
                 buttonContact.addEventListener("click", openModal)
 
 
-                /************************* */
-
-               
+                /************************* fin de la modal*/             
 
               
                   
@@ -519,14 +526,11 @@ const getData = async function  () {
                         text.appendChild(boxLikes)
                         boxLikes.appendChild(numberLikes).innerText=media[p].likes    
                         boxLikes.appendChild(heart)
-
-                        
+                        heart.setAttribute("alt", "j'aime")
+                  
                         
                        heart.classList.add("far")
-                       heart.classList.add("fa-heart")
-                       
-                       
-                     
+                       heart.classList.add("fa-heart")                 
 
                         text.style.display="flex"
                         text.style.flexDirection="row"
@@ -621,20 +625,19 @@ const getData = async function  () {
                        
                        Lieu.tabIndex="3"
                        TagLine.tabIndex="4"                       
-                       Photo.tabIndex="9"
+                       Photo.tabIndex="14"
                        buttonContact.tabIndex="8"
                       
-                        textTri.tabIndex="13"
-                        listeTri.tabIndex="14"
-                        box.tabIndex="15"+i
+                        textTri.tabIndex="15"
+                        listeTri.tabIndex="16"
+                        box.tabIndex="17"+i
                         
 
 
                         priceBoxFixe.innerText=photographers[i].price+"€/jour"
                                                     
                         
-                        //Carousel
-                               
+                        //Création du Carousel                           
                                
 
                               class Carousel {
@@ -771,8 +774,6 @@ const getData = async function  () {
             prevButton.style.fontSize="5em"
 
            
-           
-
             
             nextButton.addEventListener("click", this.next.bind(this) )
             prevButton.addEventListener("click", this.prev.bind(this) )
