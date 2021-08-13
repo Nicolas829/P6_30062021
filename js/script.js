@@ -27,25 +27,32 @@ contenu.style.alignItems="center"
 contenu.style.fontSize="1.5em"  
 contenu.style.cursor="pointer"
 contenu.style.top="0"
-contenu.style.left="45%"
+contenu.style.left="40%"
 contenu.style.width="10em"
-contenu.style.height="2em"
+contenu.style.height="1.5em"
 contenu.style.position="fixed"
 contenu.style.fontWeight="700"
  contenu.style.backgroundColor="#DB8876"
  contenu.innerText="Passer au contenu"
+ contenu.style.display="none"
  
  contenu.style.color="#000000"
- contenu.style.display="none"
+ 
  contenu.addEventListener("click", (e)=> {
   contenu.style.display="none"
   contenu.href="#container_photograph"
 })
- //on le fait apparaître au scroll
- window.addEventListener('scroll',function(e) {
+ //on le fait apparaître uniquement au scroll
+ function hiddenContenu () {
+   contenu.style.display="none"
+ }
+ window.addEventListener("scroll", e=> {
+   
+        contenu.style.display="flex"
+      setTimeout(hiddenContenu,300)
+ })
  
-  contenu.style.display="flex"
-})
+  
 
 
 //function focus
@@ -69,9 +76,9 @@ createDiv.setAttribute("id", "container_photograph");
 const photoClass= document.getElementsByClassName('photographers')
 let divStyle=createDiv.style;
 divStyle.display="flex";
-divStyle.justifyContent="flex-start";
+divStyle.justifyContent="space-between";
 divStyle.columnGap="11em";
-divStyle.rowGap="10em";
+divStyle.rowGap="5em";
 divStyle.boxSizing="border-box";
 divStyle.marginTop="10em";
 
@@ -83,7 +90,8 @@ divStyle.flexFlow="row wrap"
 //on créer les tags pour les boutonsTags
 for (let p=0;p<liButton.length;p++ ){
 
-  liButton[p].classList.add(liButton[p].innerText)
+  
+  liButton[p].classList.add("#"+liButton[p].id)
  focusElement(liButton[p], "black", "white","#911C1C" )
  
 }
@@ -133,9 +141,10 @@ const getData = async function  () {
     box.appendChild(boxPresentation)
 
     boxPresentation.appendChild(Lieu).innerText=photographers[i].city +", " + photographers[i].country ;
+   
+    boxPresentation.appendChild(TagLine).innerText=photographers[i].tagline;
     boxPresentation.appendChild(Price).innerText=photographers[i].price +"€/jour";  
 
-    boxPresentation.appendChild(TagLine).innerText=photographers[i].tagline;
    
     a.style.textDecoration="none"
     a.style.color="black"
@@ -195,13 +204,17 @@ const getData = async function  () {
    
 
     Lieu.style.color="#901C1C";
-    Lieu.style.fontWeight="500";
-    Lieu.style.fontSize="1em";
-    Lieu.style.marginTop="0"
-    Price.style.color="#757575";
+    Lieu.style.fontWeight="400";
+    Lieu.style.fontSize="1.08em";
+    Lieu.style.marginTop="-1em"
 
-    TagLine.style.fontWeight="500";
-    TagLine.style.fontSize="1em";
+    Price.style.color="#757575";
+    Price.style.fontSize="0.75em"
+    Price.style.marginTop="-0.5em"
+
+    TagLine.style.fontWeight="400";
+    TagLine.style.fontSize="0.83em";
+    TagLine.style.marginTop="-1em"
 
     //on cherche les Tags de chaque Photographe
     for(let j=0; j<photographers[i].tags.length;j++){
@@ -233,7 +246,7 @@ const getData = async function  () {
        let info =e.target.className
       const filterTags =[]
       filterTags.push(info);     
-      
+      createDiv.style.justifyContent="flex-start"
       
       console.log(filterTags[0])
     

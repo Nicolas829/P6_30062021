@@ -9,18 +9,29 @@ body {
   }
 
   main {
-    padding:3em;
+    
+    margin:1em;
+  }
+  main.index {
+    
+    margin:6em;
+    margin-top:1em;
   }
 
 section  {
   
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-left:1em;
+ 
+  align-content: center; 
+ margin:2em;
 
 }
-
+svg {
+  width:0.9em;
+  height:0.9em;  
+  
+}
 a{
   text-decoration: none;
 }
@@ -31,11 +42,16 @@ a{
   .logo {
     display: flex;
     justify-content: flex-start;
-   
+    align-items: center;
     font-size: 5em;
-    color:#911C1C; 
+    color:#901C1C; 
+    font-weight: 500;
+  
+    
     
   }
+
+  
 nav {
   display: flex;  
   box-sizing: border-box;
@@ -44,6 +60,7 @@ nav {
 ul {
   display: flex;
  justify-content: center;
+ align-items: center;
   box-sizing: border-box;
   font-size: 1em;
  width:100%;
@@ -56,7 +73,7 @@ ul {
 .tags {
 
   text-decoration: none;
-  color:#911C1C;  
+  color:#901C1C;  
   font-weight: 500;
   list-style:none;
   border:solid #C4C4C4 1px;  
@@ -64,6 +81,7 @@ ul {
   padding:0.5em;
   padding-left:1em;
   padding-right:1em;
+  font-weight: 500;
   cursor:pointer;
 }
 .tags:hover {
@@ -74,7 +92,7 @@ ul {
   box-sizing: border-box;
   justify-content: flex-end;
   white-space: nowrap;
-  color:#911C1C;
+  color:#901C1C;
   font-size:2.5em;
   font-weight:400;
  
