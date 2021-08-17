@@ -43,14 +43,7 @@ let priceBoxFixe=document.createElement("p")
 body.appendChild(boxFixe)
 
 
-//function focus color
-function focusElement (element){
-    element.addEventListener("focus", (e)=> {
-       element.style.backgroundColor="#D3573C"
-    })
-    element.addEventListener("blur", (e)=> {
-        element.style.backgroundColor="#901C1C"
-    })}
+
 
 
 //creation de la boxFixe
@@ -71,15 +64,16 @@ boxFixe.style.display="flex"
 boxFixe.style.justifyContent="space-around"
 boxFixe.style.alignItems="center"
 
-let sumLike=259689;
+let sumLike=259689
 
-totalLike.textContent= sumLike
+totalLike.textContent= sumLike.toLocaleString()
+
 
 heartFixe.classList.add("far")
 heartFixe.classList.add("fa-heart")
 heartFixe.style.marginLeft="-2em"
 heartFixe.addEventListener("click", (e)=>{
- totalLike.textContent=sumLike+=1
+ totalLike.textContent=(sumLike+=1).toLocaleString()
  heartFixe.classList.replace("far","fas") })
 //on va chercher le JSON
 const getData = async function  () {
@@ -90,7 +84,20 @@ const getData = async function  () {
     let photographers=data.photographers; 
     const boxFilter = [];
 
-   
+
+    //fonction focus d'element pour accessibiltié
+    
+    function focusElement (element, fontColorFocus, bgColorBlur, fontColorBlur){
+ 
+        element.addEventListener("focus", (e)=> {
+           element.style.backgroundColor="#DB8876"
+           element.style.color=fontColorFocus
+        })
+        element.addEventListener("blur", (e)=> {
+          element.style.backgroundColor=bgColorBlur
+          element.style.color=fontColorBlur
+      })
+       }
     
 
     //création de l'encart Photographe
@@ -127,14 +134,8 @@ const getData = async function  () {
                     Tags.classList.add(Tags.textContent)
                     Tags.width="auto";
                     Tags.tabIndex="6"
-                    focusElement()
-                    function focusElement (element){
-                        Tags.addEventListener("focus", (e)=> {
-                           Tags.style.backgroundColor="#D3573C"
-                        })
-                       Tags.addEventListener("blur", (e)=> {
-                            Tags.style.backgroundColor="White"
-                        })}
+                    focusElement(Tags, "black", "white","#911C1C" )
+                   
                     
                 }
                 
@@ -150,7 +151,7 @@ const getData = async function  () {
               
                 createDiv.style.boxSizing="border-box"
                 createDiv.style.width="auto"
-                createDiv.style.height="20em"
+                createDiv.style.height="25em"
                 createDiv.style.marginTop="5em"
                 createDiv.style.borderRadius="5px"
               
@@ -214,7 +215,7 @@ const getData = async function  () {
                 buttonName.style.fontSize="20px"
                 buttonName.style.cursor="pointer"
                 
-                focusElement(buttonName)}                
+                focusElement(buttonName,"black", "#911C1C","white" )}                
                 buttonCreate(buttonContact)
 
                
@@ -227,10 +228,10 @@ const getData = async function  () {
                 //Div modal
                 modal.style.backgroundColor="#DB8876"
                 modal.style.boxSizing="border-box"                   
-                modal.style.width=window.innerWidth/2+"px"
-                modal.style.top="5%"
-                modal.style.left="25%"
-                modal.style.height=window.innerHeigth/2+"px"
+                modal.style.width="669px"
+                modal.style.top="2%"
+                modal.style.left="32%"
+                modal.style.height="900px"
                 modal.style.radius="5px"
                 modal.style.display="flex"                          
                 modal.style.flexDirection="column"
@@ -242,6 +243,9 @@ const getData = async function  () {
                 //on ferme le formulaire avec le clavier "touche escape"
                 window.addEventListener("keyup", e=>{ 
                if (e.key=="Escape") {closeModal()}})
+
+               
+
 
                 //const des elements de la modal
                 const textEtClose=document.createElement("div")
@@ -261,6 +265,7 @@ const getData = async function  () {
                        
                 form.style.display="flex"
                 form.style.flexDirection="column"
+                form.style.fontSize="0.5em"
 
                 modal.appendChild(form)
                 form.appendChild(textEtClose)
@@ -288,8 +293,7 @@ const getData = async function  () {
                 form.appendChild(message)
                 message.innerText="Votre Message"
                 message.style.fontSize="4em"
-                form.appendChild(inputMessage)
-                             
+                form.appendChild(inputMessage)                             
                 form.appendChild(envoi)               
                 
 
@@ -308,13 +312,13 @@ const getData = async function  () {
                 //on habille les input
                 function inputStyle (input) {
 
-                input.style.height="68px"
+                input.style.height="2em"
                 input.style.marginTop="-1em"
                 input.style.borderRadius="5px"
                 input.style.fontSize="2em"
                 input.style.outline="none"
-                input.setAttribute("type", "text")}
-
+                input.setAttribute("type", "text")
+                }
                 
                 inputStyle(inputPrenom)
                 inputStyle(inputNom)
@@ -386,6 +390,8 @@ const getData = async function  () {
                     
                     
                 }
+
+               
                 
                 //click envoi formulaire
                 envoi.addEventListener("click", sendForm)
@@ -423,11 +429,12 @@ const getData = async function  () {
                  //création des element de filtres pour tri des photos
                  let boxTri = document.createElement("div")
                  let textTri= document.createElement("p")
-                 let listeTri=document.createElement("button")
+                 let buttonTri=document.createElement("button")
+                 let listeTri=document.createElement("ul")
                  
-                 let popularite=document.createElement("a")
-                 let date=document.createElement("a")
-                 let titre= document.createElement("a")
+                 let popularite=document.createElement("li")
+                 let date=document.createElement("li")
+                 let titre= document.createElement("li")
                  let chevron = document.createElement("i")
                 
                  main.appendChild(boxTri)
@@ -439,49 +446,73 @@ const getData = async function  () {
                  boxTri.style.marginTop="2em"    
                  boxTri.appendChild(textTri).innerText="Trier par"
                 
-                boxTri.appendChild(listeTri)
+                boxTri.appendChild(buttonTri)
+                buttonTri.appendChild(chevron)
+                buttonTri.appendChild(listeTri)
 
                 //creation du boutton de tri
-                listeTri.style.backgroundColor="#901C1C"
-                listeTri.style.color="white"
-                listeTri.style.borderRadius="5px"
-                listeTri.style.width="170px"
-                listeTri.style.height="50px"
-                listeTri.style.fontWeight="700"    
-                listeTri.style.display="flex"    
-                listeTri.style.flexDirection="column"
-                listeTri.style.paddingTop="1em"
-                listeTri.style.border="none"                         
-                listeTri.style.gap="1em"
-                listeTri.style.overflow="hidden"
-                listeTri.style.fontSize="1em"
-                listeTri.setAttribute("aria-haspopup", "true")
-                listeTri.setAttribute("aria-expanded", "false")
-
+                buttonTri.style.backgroundColor="#901C1C"
+                buttonTri.style.color="white"
+                buttonTri.style.borderRadius="5px"
+                buttonTri.style.width="170px"
+                buttonTri.style.height="50px"
+                buttonTri.style.fontWeight="700"          
+                buttonTri.style.border="none"                      
+                buttonTri.style.overflow="hidden"
+                buttonTri.style.fontSize="1em"
+               
+                buttonTri.setAttribute("aria-haspopup", "true")
+                buttonTri.setAttribute("aria-expanded", "false")
+                focusElement(buttonTri,"black", "#911C1C", "white" )
+               
                 //Attribution des options au boutton de tri
-                listeTri.appendChild(popularite).innerText="Popularité"
-               listeTri.appendChild(chevron)
+               listeTri.style.display="flex"    
+               listeTri.style.flexDirection="column"
+               listeTri.style.boxSizing="border-box"
+               listeTri.style.listStyleType="none"
+               listeTri.style.gap="1em"
+               listeTri.style.marginLeft="-3em"
+               listeTri.style.marginTop="-2.3em"
+              
+              listeTri.style.textAlign="left"
+             
+               listeTri.appendChild(popularite).innerText="Popularité"
+               
                 chevron.classList.add("fas")
-                chevron.classList.add("fa-chevron-circle-down")
-                chevron.style.position="absolute"
-                       
+                chevron.classList.add("fa-chevron-down")
+                chevron.style.marginLeft="8em"
+                chevron.style.marginTop="1em"              
+                chevron.style.border="none"
+               
                 
-                chevron.style.width="15%"
                
                 listeTri.appendChild(date).innerText="Date"
-                listeTri.appendChild(titre).innerText="Titre"      
-              
+                listeTri.appendChild(titre).innerText="Titre"                    
                 textTri.style.fontWeight="700"
+                
                 styleTri(popularite)
                 styleTri(date)
                 styleTri(titre)
+               
                 popularite.style.order="0"
                 date.style.order="1"
                 titre.style.order="2"
                 function styleTri (a) {
                     a.style.cursor="pointer"
                     a.classList.add("option")
-
+                    a.style.borderTop="solid 1px"
+                    a.style.paddingTop="1.2em"
+                    a.style.marginLeft="2em"
+                    a.style.verticalAlign="bottom"
+                    a.style.width="100%"
+                    a.addEventListener("focus", (e)=> {
+                        
+                        a.style.color="black"
+                     })
+                    a.addEventListener("blur", (e)=> {
+                     
+                       a.style.color="white"
+                   })
                 }
 
                 //attribution des roles d'accesibilités
@@ -527,18 +558,18 @@ const getData = async function  () {
                                       
                         
                         box.style.width="30%"
-                        box.style.height="300px"
+                        box.style.height="400px"
                         box.style.alignItems="center"
                        
                         box.setAttribute("alt", media[p].title)
                                               
                       box.addEventListener("focus", (e)=>{
                          box.style.transform='scale(1.05)'
-                          console.log(picture)
+                          
                       })
                       box.addEventListener("blur", (e)=>{
                         box.style.transform='scale(1)'
-                         console.log(picture)
+                         
                      })
                         
                         function pictVid () {
@@ -603,7 +634,8 @@ const getData = async function  () {
                     
                      box.classList.add(media[p].date.replace("-",""))
                      box.className.replace("-","")                    
-                     box.id=media[p].title
+                     box.id=media[p].title.toUpperCase()
+                     
                      
                      resizePage()
                      window.addEventListener("resize", resizePage)
@@ -630,10 +662,15 @@ const getData = async function  () {
                          boxTags.style.fontSize="1.5em"
                          boxTri.style.fontSize="1em"
                          modal.style.width="100%"
+                         modal.style.height="100%"
+                         form.style.fontSize="0.8em"
                          modal.style.top="0"
                          modal.style.left="0"
                         
-                     } else {
+                     } 
+                    
+                        
+                     else {
                         
                      }
                      }
@@ -649,8 +686,8 @@ const getData = async function  () {
                         a.addEventListener("click", (e)=> {
                             
                         
-                            listeTri.style.height="50px"
-                           
+                           buttonTri.style.height="50px"
+                           buttonTri.style.backgroundColor="#901C1C"
                         chevron.style.transform="rotate(0deg)"
                       
                         popularite.style.order="1"
@@ -664,24 +701,33 @@ const getData = async function  () {
                                     if(popularite.style.order=="0") {
                                         
                                         box.style.order="-"+media[p].likes
-                                       
-                                       
+                                      box.style.order=(Number(box.style.order)+400) 
+                                        
+                                      box.tabIndex=box.style.order
                                    }
                             }
                                     if (date.style.order=="0"){
                                        
                                         box.style.order="-"+box.className.replace("-","")
-                                       
+                                        box.style.order=(Number(box.style.order)+100000000) 
+                                        
+                                        box.tabIndex=box.style.order
                                        
                                     }
 
                                     if (titre.style.order=="0") {
                                         
 
-                                        for(let j=0;j<box.id.length;j++){
+                                        for(let j=0;j<4;j++){
                                             box.id.replace(" ","")
-                                           box.style.order=box.id.charCodeAt()
-                                           box.style.order+=box.id[j].charCodeAt()
+                                            box.id.replace(",","")
+                                           box.style.order=box.id[0].charCodeAt()
+                                           box.style.order+= box.id[1].charCodeAt()
+                                       
+                                         
+                                      
+                                           box.tabIndex=box.style.order
+                                           
                                         
                                         }
                                     }
@@ -694,56 +740,67 @@ const getData = async function  () {
                
                 chevron.addEventListener('click',  dropDown)
                 chevron.addEventListener("keyup", e=> {
-                    console.log(e.key)
+                   
                     if(e.key=="Enter"){
                         dropDown()
-                        console.log(nbr)   
+                        
                         date.style.order="1"
                         popularite.style.order="1"
                         titre.style.order="1"
+                       
                         
-                        console.log(option)
 
                         for (let m=0; m<option.length;m++)
                         option[m].addEventListener('keyup', e=> {
 
                             if (e.key=="Enter"){
                                 nbr=0
-                                console.log(e.target)
+                               
                                 date.setAttribute("aria-selected", "false")
                                 popularite.setAttribute("aria-selected", "false")
                                 titre.setAttribute("aria-selected", "false")
                                 date.tabIndex="-1"
                                 popularite.tabIndex="-1"
                                 titre.tabIndex="-1"
-                                e.target.tabIndex="16"
-                             
+                                e.target.tabIndex="16"                             
                                e.target.style.order="0"
+                             
                                e.target.setAttribute("aria-selected", "true")
-                               listeTri.style.height="50px"                           
+                              buttonTri.style.height="50px"        
+                              buttonTri.style.backgroundColor="#901C1C"                   
                                chevron.style.transform="rotate(0deg)"
                                {
                                 if(popularite.style.order=="0") {
                                     
                                     box.style.order="-"+media[p].likes
-                                   
+                                    box.style.order=(Number(box.style.order)+400) 
+                                        
+                                    box.tabIndex=box.style.order
                                    
                                }
                         }
                                 if (date.style.order=="0"){
                                    
                                     box.style.order="-"+box.className.replace("-","")
-                                   
+                                    box.style.order=(Number(box.style.order)+100000000) 
+                                        
+                                    box.tabIndex=box.style.order
                                    
                                 }
 
                                 if (titre.style.order=="0") {
                                     
 
-                                    for(let j=0;j<box.id.length;j++){
+                                    for(let j=0;j<4;j++){
                                         box.id.replace(" ","")
-                                       box.style.order=box.id.charCodeAt()
-                                       box.style.order+=box.id[j].charCodeAt()
+                                        box.id.replace(",","")
+                                        box.style.order=box.id[0].charCodeAt()
+                                        box.style.order+= box.id[1].charCodeAt()
+                                    
+                                      
+                                   
+                                        box.tabIndex=box.style.order
+                                      
                                     
                                     }
                                 }
@@ -758,15 +815,19 @@ const getData = async function  () {
                     nbr++
                  
                  
-                  if (nbr%2==0){listeTri.style.height="50px"
-             
-              chevron.style.transform="rotate(0deg)"
+                  if (nbr%2==0){
+                    buttonTri.style.height="50px"
+                      date.tabIndex="-1"
+                      popularite.tabIndex="-1"
+                      titre.tabIndex="-1"
+                      chevron.style.transform="rotate(0deg)"
+                      buttonTri.style.backgroundColor="#901C1C"
               
               return nbr
                   }  
                else {
-                listeTri.style.height="120px"    
-            
+                buttonTri.style.height="160px"    
+                buttonTri.style.backgroundColor="#DB8876"
             chevron.style.transform="rotate(180deg)"
                     
                 }
@@ -781,18 +842,15 @@ const getData = async function  () {
 
 
                        //TabIndex
-                       Nom.tabIndex="2"
-                       
+                       Nom.tabIndex="2"                       
                        Lieu.tabIndex="3"
                        TagLine.tabIndex="4"                       
                        Photo.tabIndex="14"
-                       buttonContact.tabIndex="8"
-                      
+                       buttonContact.tabIndex="8"                      
                         textTri.tabIndex="15"
-                        listeTri.tabIndex="16"
-                       
+                        buttonTri.tabIndex="16"                       
                         chevron.tabIndex="17"
-                        box.tabIndex="21"+i
+                        box.tabIndex="21"
                        chevron.addEventListener("keypress", (e)=>{
                            
                            if((e).key=="Enter"){
