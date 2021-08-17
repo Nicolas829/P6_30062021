@@ -505,14 +505,7 @@ const getData = async function  () {
                     a.style.marginLeft="2em"
                     a.style.verticalAlign="bottom"
                     a.style.width="100%"
-                    a.addEventListener("focus", (e)=> {
-                        
-                        a.style.color="black"
-                     })
-                    a.addEventListener("blur", (e)=> {
-                     
-                       a.style.color="white"
-                   })
+                   
                 }
 
                 //attribution des roles d'accesibilités
@@ -688,6 +681,7 @@ const getData = async function  () {
                         
                            buttonTri.style.height="50px"
                            buttonTri.style.backgroundColor="#901C1C"
+                           buttonTri.style.color="white"
                         chevron.style.transform="rotate(0deg)"
                       
                         popularite.style.order="1"
@@ -763,11 +757,12 @@ const getData = async function  () {
                                 popularite.tabIndex="-1"
                                 titre.tabIndex="-1"
                                 e.target.tabIndex="16"                             
-                               e.target.style.order="0"
+                                e.target.style.order="0"
                              
                                e.target.setAttribute("aria-selected", "true")
                               buttonTri.style.height="50px"        
-                              buttonTri.style.backgroundColor="#901C1C"                   
+                              buttonTri.style.backgroundColor="#901C1C"    
+                              buttonTri.style.color="white"              
                                chevron.style.transform="rotate(0deg)"
                                {
                                 if(popularite.style.order=="0") {
@@ -795,10 +790,7 @@ const getData = async function  () {
                                         box.id.replace(" ","")
                                         box.id.replace(",","")
                                         box.style.order=box.id[0].charCodeAt()
-                                        box.style.order+= box.id[1].charCodeAt()
-                                    
-                                      
-                                   
+                                        box.style.order+= box.id[1].charCodeAt()                               
                                         box.tabIndex=box.style.order
                                       
                                     
@@ -822,6 +814,7 @@ const getData = async function  () {
                       titre.tabIndex="-1"
                       chevron.style.transform="rotate(0deg)"
                       buttonTri.style.backgroundColor="#901C1C"
+                      buttonTri.style.color="white"
               
               return nbr
                   }  
@@ -829,6 +822,7 @@ const getData = async function  () {
                 buttonTri.style.height="160px"    
                 buttonTri.style.backgroundColor="#DB8876"
             chevron.style.transform="rotate(180deg)"
+            buttonTri.style.color="black"
                     
                 }
                          
