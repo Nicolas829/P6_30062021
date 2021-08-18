@@ -218,7 +218,7 @@ const getData = async function  () {
                 focusElement(buttonName,"black", "#911C1C","white" )}                
                 buttonCreate(buttonContact)
 
-                    
+                    buttonContact.style.marginTop="2em"
 
                 //construction de la modal
 
@@ -641,7 +641,6 @@ const getData = async function  () {
                         if(matchMedia("(max-width:1450px)").matches) {
                             box.style.height="17.5em"
                             createDiv.style.fontSize="0.7em"
-                            
                         }
                      if(matchMedia("(max-width:1250px)").matches) {
                         main.style.padding="2em"
