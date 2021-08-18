@@ -206,19 +206,20 @@ const getData = async function  () {
                 //button contact
                 function buttonCreate(buttonName){
                 buttonName.style.border="none"
-                buttonName.style.width="170px";
-                buttonName.style.height="69px";
+                buttonName.style.width="10em";
+                buttonName.style.height="4em";
                 buttonName.style.borderRadius="5px";
                 buttonName.style.backgroundColor="#901C1C"
                 buttonName.style.fontWeight="700";
                 buttonName.style.color="white"
-                buttonName.style.fontSize="20px"
+                buttonName.style.fontSize="1.2em"
                 buttonName.style.cursor="pointer"
                 
                 focusElement(buttonName,"black", "#911C1C","white" )}                
                 buttonCreate(buttonContact)
 
                     buttonContact.style.marginTop="2em"
+                    
 
                 //construction de la modal
 
@@ -481,9 +482,10 @@ const getData = async function  () {
                
                 chevron.classList.add("fas")
                 chevron.classList.add("fa-chevron-down")
-                chevron.style.marginLeft="8em"
-                chevron.style.marginTop="1em"              
+                chevron.style.marginLeft="6em"
+                chevron.style.marginTop="0.9em"              
                 chevron.style.border="none"
+                
                
                 
                
