@@ -77,6 +77,7 @@ const photoClass= document.getElementsByClassName('photographers')
 let divStyle=createDiv.style;
 divStyle.display="flex";
 divStyle.justifyContent="space-between";
+divStyle.marginLLeft="2em"
 divStyle.columnGap="11em";
 divStyle.rowGap="5em";
 divStyle.boxSizing="border-box";
@@ -166,19 +167,20 @@ const getData = async function  () {
     box.style.textAlign="center"
     box.style.alignItems="center"
     box.style.boxSizing="border-box";      
-    box.style.width="25%";
+    box.style.width="20%";
     box.style.cursor="pointer";
     
     resizePage()
     window.addEventListener("resize", resizePage)
     function resizePage() {
+      if(window.innerWidth<1400) {
+        box.style.fontSize="0.8em"
+      }
       if(window.innerWidth<1200) {
         box.style.fontSize="2em"
         box.style.width="100%"
-      } else {
-        box.style.width="25%"
-        box.style.fontSize="1em"
-      }
+      } 
+     
     }
    
     
@@ -198,23 +200,23 @@ const getData = async function  () {
     Nom.style.textAlign="center";
     Nom.style.whiteSpace="nowrap"
     Nom.style.color="#D3573C";
-    Nom.style.fontSize="3em";
+    Nom.style.fontSize="2.25em";
     Nom.style.fontWeight="400";
     
    
 
     Lieu.style.color="#901C1C";
     Lieu.style.fontWeight="400";
-    Lieu.style.fontSize="1.08em";
+    Lieu.style.fontSize="0.8em";
     Lieu.style.marginTop="-1em"
 
     Price.style.color="#757575";
     Price.style.fontSize="0.75em"
-    Price.style.marginTop="-0.5em"
+    Price.style.marginTop="-0.6em"
 
     TagLine.style.fontWeight="400";
     TagLine.style.fontSize="0.83em";
-    TagLine.style.marginTop="-1em"
+    TagLine.style.marginTop="-0.8em"
 
     //on cherche les Tags de chaque Photographe
     for(let j=0; j<photographers[i].tags.length;j++){

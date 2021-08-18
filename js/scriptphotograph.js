@@ -178,17 +178,17 @@ const getData = async function  () {
                 //Nom
                
                 Nom.style.color="#D3573C";
-                Nom.style.fontSize="64px";
+                Nom.style.fontSize="4em";
                 Nom.style.fontWeight="400";
                
                 //lieu
                 Lieu.style.color="#901C1C";
                 Lieu.style.fontWeight="400";
-                Lieu.style.fontSize="24px";
+                Lieu.style.fontSize="1.5em";
                 Lieu.style.marginTop="-2em"
 
                 //tagline
-                TagLine.style.fontSize="18px"
+                TagLine.style.fontSize="1.125em"
                 TagLine.style.fontWeight="400"
                 TagLine.style.color="#525252"
                 
@@ -218,7 +218,7 @@ const getData = async function  () {
                 focusElement(buttonName,"black", "#911C1C","white" )}                
                 buttonCreate(buttonContact)
 
-               
+                    
 
                 //construction de la modal
 
@@ -471,7 +471,8 @@ const getData = async function  () {
                listeTri.style.boxSizing="border-box"
                listeTri.style.listStyleType="none"
                listeTri.style.gap="1em"
-               listeTri.style.marginLeft="-3em"
+               listeTri.style.fontSize="1em"
+               listeTri.style.marginLeft="0em"
                listeTri.style.marginTop="-2.3em"
               
               listeTri.style.textAlign="left"
@@ -502,9 +503,9 @@ const getData = async function  () {
                     a.classList.add("option")
                     a.style.borderTop="solid 1px"
                     a.style.paddingTop="1.2em"
-                    a.style.marginLeft="2em"
+                    a.style.marginLeft="0em"
                     a.style.verticalAlign="bottom"
-                    a.style.width="100%"
+                    a.style.width="80%"
                    
                 }
 
@@ -550,7 +551,7 @@ const getData = async function  () {
                         box.style.flexDirection="column"      
                                       
                         
-                        box.style.width="30%"
+                        box.style.width="25%"
                         box.style.height="400px"
                         box.style.alignItems="center"
                        
@@ -573,6 +574,7 @@ const getData = async function  () {
                             box.appendChild(video).src="img/"+media[p].video
                             
                         } }
+                     
                        
                         pictVid()
                       
@@ -636,6 +638,11 @@ const getData = async function  () {
 
                      //Partie Responsive
                      function resizePage() {
+                        if(matchMedia("(max-width:1450px)").matches) {
+                            box.style.height="17.5em"
+                            createDiv.style.fontSize="0.7em"
+                            
+                        }
                      if(matchMedia("(max-width:1250px)").matches) {
                         main.style.padding="2em"
                         main.style.margin="0"      
@@ -646,7 +653,7 @@ const getData = async function  () {
                          buttonContact.style.left="40%"
                         buttonContact.style.width="170px"
                          container.style.flexDirection="column"                        
-                         box3.style.marginRight="4  em"
+                         box3.style.marginRight="4em"
                          box3.style.marginTop="-5em"
                          box.style.width="100%"
                          box.style.height="500px"
@@ -899,8 +906,12 @@ const getData = async function  () {
                       
                child.style.width=window.innerWidth-400+"px"
                child.style.height=window.innerHeight-100+"px"
-               
-              
+
+                    window.addEventListener("resize", e=>{
+                        child.style.width=window.innerWidth-400+"px"
+                        child.style.height=window.innerHeight-100+"px"
+                        })
+                            
                 this.panorama.appendChild(item)
                 return item
             })
