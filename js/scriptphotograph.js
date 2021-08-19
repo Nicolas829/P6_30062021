@@ -64,7 +64,7 @@ boxFixe.style.display="flex"
 boxFixe.style.justifyContent="space-around"
 boxFixe.style.alignItems="center"
 
-let sumLike=259689
+let sumLike=0
 
 totalLike.textContent= sumLike.toLocaleString()
 
@@ -622,12 +622,20 @@ const getData = async function  () {
 
                         numberLikes.style.fontWeight="500"
                         
+                        sumLike= sumLike+media[p].likes
+                       totalLike.textContent=sumLike
+
                         heart.style.cursor="pointer"
                         heart.addEventListener("click", (e)=> {
                             numberLikes.innerText= media[p].likes+=1
+                            sumLike= sumLike+=1
+                            totalLike.textContent=sumLike
                             heart.classList.replace("far","fas")
+                            
                         })
                        
+                      
+                      
                     
                      box.classList.add(media[p].date.replace("-",""))
                      box.className.replace("-","")                    
