@@ -75,6 +75,7 @@ heartFixe.style.marginLeft="-2em"
 heartFixe.addEventListener("click", (e)=>{
  totalLike.textContent=(sumLike+=1).toLocaleString()
  heartFixe.classList.replace("far","fas") })
+
 //on va chercher le JSON
 const getData = async function  () {
     let response = await fetch ("js/FishEyeData.json")
@@ -347,7 +348,7 @@ const getData = async function  () {
                 const emailReg = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
                 const messageReg= new RegExp(/[a-zA-Z]{10,400}/)
                 let p = document.createElement("p")
-                let form_OK =true
+               
 
                 //fonction de validation des input
                 function checkForm (nameInput, regle, texte) {
@@ -356,7 +357,7 @@ const getData = async function  () {
                        if (regle.test(e.target.value)){
                            p.parentNode.removeChild(p)
                           nameInput.style.border="solid 2px green"
-                          form_ok=true;
+                          return true;
                           
                        }
                        
@@ -366,7 +367,7 @@ const getData = async function  () {
                             p.style.fontSize="2em"
                             p.style.marginBottom="-1em"
                             nameInput.style.border="solid  2px red"
-                            form_OK=false;
+                            
                         }
                     })
                     
@@ -379,14 +380,17 @@ const getData = async function  () {
                 //fonction envoi formulaire
                 function sendForm (event) {
                     event.preventDefault()
-                    if(inputPrenom.value.length<2 && inputNom.value.length<2 && inputEmail.value.length<4 &&inputMessage.value.length<10 ){
+                    if(inputPrenom.value.length>1 && inputNom.value.length>1 && inputEmail.value.length>4 &&inputMessage.value.length>9 ){
                        
-                        envoi.insertAdjacentElement("afterend",p).innerText="Veuillez remplir tous les champs"
-                    }
-                    else {
                         envoi.insertAdjacentElement("afterend",p).innerText="message Envoyé"
                         p.style.color="green"
                         form.reset()
+                    }
+                    else {                       
+
+                        envoi.insertAdjacentElement("afterend",p).innerText="Veuillez remplir tous les champs"
+                        p.style.color="red"
+                        p.style.fontSize="2em"
                     }
                     
                     
@@ -732,8 +736,7 @@ const getData = async function  () {
                                             box.id.replace(" ","")
                                             box.id.replace(",","")
                                            box.style.order=box.id[0].charCodeAt()
-                                           box.style.order+= box.id[1].charCodeAt()
-                                       
+                                           box.style.order+= box.id[1].charCodeAt()                                  
                                          
                                       
                                            box.tabIndex=box.style.order

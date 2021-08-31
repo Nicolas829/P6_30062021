@@ -242,10 +242,16 @@ const getData = async function  () {
     //création du filtre de recherche de tags
             for (let p=0;p<tagsButton.length;p++ ){           
     
-     tagsButton[p].addEventListener("click", (e) =>          
+     tagsButton[p].addEventListener("click", triTags)
+     tagsButton[p].addEventListener("keypress", (e)=> {
+     
+      if((e).keyCode==0xD){triTags()}
+     })
+
+     function triTags ()           
      
       {      
-       let info =e.target.className
+       let info =tagsButton[p].className
       const filterTags =[]
       filterTags.push(info);     
       createDiv.style.justifyContent="flex-start"
@@ -265,7 +271,7 @@ const getData = async function  () {
         }     
      
   }      
-     )}
+     }
      
 
      
