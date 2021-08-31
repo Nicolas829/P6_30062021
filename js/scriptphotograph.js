@@ -279,25 +279,26 @@ const getData = async function  () {
                 prenom.innerText="Prénom"
                 prenom.style.fontSize="4em"
                 form.appendChild(inputPrenom)
+                inputPrenom.setAttribute("aria-label", "Veuillez entrer votre prenom")
                 
                 form.appendChild(nom)
                 nom.innerText="Nom"
                 nom.style.fontSize="4em"
                 form.appendChild(inputNom)
-                
+                inputNom.setAttribute("aria-label", "Veuillez entrer votre nom")
 
                 form.appendChild(email)
                 email.innerText="email"
                 email.style.fontSize="4em"
                 form.appendChild(inputEmail)
-                
+                inputEmail.setAttribute("aria-label", "Veuillez entrer votre adresse mail")
                
                 form.appendChild(message)
                 message.innerText="Votre Message"
                 message.style.fontSize="4em"
                 form.appendChild(inputMessage)                             
                 form.appendChild(envoi)               
-                
+                inputMessage.setAttribute("aria-label", "Veuillez entrer votre message de minimum 10 caractères")
 
                 textEtClose.style.display="flex";
                 textEtClose.style.justifyContent="space-between"
@@ -357,6 +358,7 @@ const getData = async function  () {
                        if (regle.test(e.target.value)){
                            p.parentNode.removeChild(p)
                           nameInput.style.border="solid 2px green"
+                          nameInput.setAttribute("aria-label", "Nous avons bien enregistré votre"+nameInput.previousSibling.innerText)
                           return true;
                           
                        }
@@ -367,6 +369,7 @@ const getData = async function  () {
                             p.style.fontSize="2em"
                             p.style.marginBottom="-1em"
                             nameInput.style.border="solid  2px red"
+                            nameInput.setAttribute("aria-label", texte)
                             
                         }
                     })
@@ -383,12 +386,14 @@ const getData = async function  () {
                     if(inputPrenom.value.length>1 && inputNom.value.length>1 && inputEmail.value.length>4 &&inputMessage.value.length>9 ){
                        
                         envoi.insertAdjacentElement("afterend",p).innerText="message Envoyé"
+                        envoi.setAttribute("aria-label", "Votre message a bien été envoyé")
                         p.style.color="green"
                         form.reset()
                     }
                     else {                       
 
                         envoi.insertAdjacentElement("afterend",p).innerText="Veuillez remplir tous les champs"
+                        envoi.setAttribute("aria-label", "Veuillez remplir tous les champs")
                         p.style.color="red"
                         p.style.fontSize="2em"
                     }
@@ -400,6 +405,7 @@ const getData = async function  () {
                 
                 //click envoi formulaire
                 envoi.addEventListener("click", sendForm)
+
                 //envoi du formulaire au clavier
                 envoi.addEventListener("keyup", e=> {
                     if(e.key=="Enter"){sendForm()}
@@ -512,6 +518,7 @@ const getData = async function  () {
                     a.style.marginLeft="0em"
                     a.style.verticalAlign="bottom"
                     a.style.width="80%"
+                    a.setAttribute("aria-label", "trier par"+a.innerText)
                    
                 }
 
@@ -563,14 +570,7 @@ const getData = async function  () {
                        
                         box.setAttribute("alt", media[p].title)
                                               
-                      box.addEventListener("focus", (e)=>{
-                         box.style.transform='scale(1.05)'
-                          
-                      })
-                      box.addEventListener("blur", (e)=>{
-                        box.style.transform='scale(1)'
-                         
-                     })
+                      
                         
                         function pictVid () {
                         box.appendChild(picture).src= "img/"+media[p].image
@@ -593,9 +593,9 @@ const getData = async function  () {
                         video.setAttribute("controls", "true")
                         video.style.borderRadius="5px"  
                         video.setAttribute("class", "carouselStyle")
-                        picture.setAttribute("class", "carouselStyle")
-
-
+                       video.setAttribute("aria-label", "cette video s'apelle" )
+                        picture.setAttribute("class", "carouselStyle")                 
+                        picture.setAttribute("aria-label", "cette photo s'apelle" )
                         picture.style.objectFit="cover";
                         picture.style.overflow="hidden"
                         picture.style.width="100%"
@@ -603,10 +603,12 @@ const getData = async function  () {
                         picture.style.borderRadius="5px"  
                         box.appendChild(text)
                         text.appendChild(picturesName).innerText=media[p].title
+                        text.setAttribute("aria-label", media[p].title+"       et a "+media[p].likes+"like")
                         text.appendChild(boxLikes)
                         boxLikes.appendChild(numberLikes).innerText=media[p].likes    
+                        
                         boxLikes.appendChild(heart)
-                        heart.setAttribute("alt", "j'aime")
+                       
                   
                         
                        heart.classList.add("far")
@@ -936,7 +938,7 @@ const getData = async function  () {
            
             window.addEventListener("keyup", (e)=>{
                 if(e.key=="ArrowRight"){
-                   this.next()}
+                   this.next()               }
                 if(e.key=="ArrowLeft"){
                     this.prev()}
                 if(e.key=="Escape"){
@@ -1024,7 +1026,7 @@ const getData = async function  () {
     
 
         next () {
-            this.gotToItem(this.currentItem + this.options.slidesToScroll)
+            this.gotToItem(this.currentItem + this.options.slidesToScroll)            
 
         }
         prev () {
