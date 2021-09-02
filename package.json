@@ -1,0 +1,23 @@
+{
+  "name": "FishEye",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nicolas829/https---github.com-Nicolas829-P6_30062021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nicolas829/https---github.com-Nicolas829-P6_30062021/issues"
+  },
+  "homepage": "https://github.com/Nicolas829/https---github.com-Nicolas829-P6_30062021#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}

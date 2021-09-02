@@ -1,49 +1,62 @@
 
 
 //DOM element
-const h1 = document.querySelector("h1");
-const mainIndex = document.getElementsByClassName("index");
+
+
 const main= document.querySelector("main")
 const body=document.querySelector("body")
-const title=document.querySelector("title")
-const section=document.querySelector("section")
 const option=document.getElementsByClassName("option")
 
 
 //create Element 
-let photographerName
+
 let buttonContact=document.createElement("button")
 let box1 = document.createElement('div');
 let box2 = document.createElement('div');
 let box3 = document.createElement('div');
-let box4 = document.createElement('div');
-let box5 = document.createElement('div');
-let carousel__container = document.createElement("div")
-
 let createDiv = document.createElement("div");
-let listItem = document.createElement('div');
 let Nom = document.createElement('h1');
 let boxTags = document.createElement('div');    
 let Lieu = document.createElement('div');
 let TagLine =document.createElement('div');
-let Price =document.createElement('div');
 let Photo =document.createElement('img');
 let container=document.createElement("section");
+let p = document.createElement("p")
+const envoi=document.createElement("button")   
 
-
-const photographersData=[]
-const liButton= document.querySelectorAll("li");
-const tagsButton= document.getElementsByClassName("tags");
-
-
+ //const des elements de la modal
+ const textEtClose=document.createElement("div")
+ const textContact =document.createElement("p")
+ 
+ const inputPrenom=document.createElement("input")
+ const inputNom=document.createElement("input")
+ const inputEmail=document.createElement("input")
+ const inputMessage=document.createElement("textarea")
+ const prenom=document.createElement("p")
+ const nom=document.createElement("p")
+ const email=document.createElement("p")
+ const message=document.createElement("p")
+            
+ const form= document.createElement("form")
+// creation des element de la boxfix
 let boxFixe = document.createElement("div")
 let totalLike =document.createElement("p")
 let heartFixe= document.createElement("i")
 let priceBoxFixe=document.createElement("p")
+
+
 body.appendChild(boxFixe)
 
 
-
+let box;
+let chevron;
+let modal;
+let boxTri;
+let nbr=0
+let buttonTri;
+let popularite;
+let date;
+let titre;
 
 
 //creation de la boxFixe
@@ -72,7 +85,7 @@ totalLike.textContent= sumLike.toLocaleString()
 heartFixe.classList.add("far")
 heartFixe.classList.add("fa-heart")
 heartFixe.style.marginLeft="-2em"
-heartFixe.addEventListener("click", (e)=>{
+heartFixe.addEventListener("click", ()=>{
  totalLike.textContent=(sumLike+=1).toLocaleString()
  heartFixe.classList.replace("far","fas") })
 
@@ -83,30 +96,240 @@ const getData = async function  () {
     
     let media=data.media;
     let photographers=data.photographers; 
-    const boxFilter = [];
+   
+    //fonction de style
+    function buttonCreate(buttonName)  {
+                    
+        buttonName.style.border="none";
+        buttonName.style.width="10em";
+        buttonName.style.height="4em";
+        buttonName.style.borderRadius="5px";
+        buttonName.style.backgroundColor="#901C1C"
+        buttonName.style.fontWeight="700";
+        buttonName.style.color="white"
+        buttonName.style.fontSize="1.2em"
+        buttonName.style.cursor="pointer"
+    
+    focusElement(buttonName,"black", "#911C1C","white" )}
+
+    function inputStyle(input) {
+
+        input.style.height="2em"
+        input.style.marginTop="-1em"
+        input.style.borderRadius="5px"
+        input.style.fontSize="2em"
+        input.style.outline="none"
+        input.setAttribute("type", "text")
+        }
+
+        function styleTri (a) {
+            a.style.cursor="pointer"
+            a.classList.add("option")
+            a.style.borderTop="solid 1px"
+            a.style.paddingTop="1.2em"
+            a.style.marginLeft="0em"
+            a.style.verticalAlign="bottom"
+            a.style.width="80%"
+            a.setAttribute("aria-label", "trier par"+a.innerText)
+           
+        }
+
+        //function fermeture de la modal
+        function closeModal (element) {
+        element.style.display="none";
+        main.style.filter="none";
+      }
+
+      
 
 
+       //fonction de validation des input
+       function checkForm (nameInput, regle, texte) {
+        nameInput.addEventListener("input", (e)=> {
+           
+           if (regle.test(e.target.value)){
+               p.parentNode.removeChild(p)
+              nameInput.style.border="solid 2px green"
+              nameInput.setAttribute("aria-label", "Nous avons bien enregistré votre"+nameInput.previousSibling.innerText)
+              return true;
+              
+           }
+           
+           else {
+               nameInput.insertAdjacentElement("afterend", p).innerText= texte  
+                p.style.color="red";
+                p.style.fontSize="2em"
+                p.style.marginBottom="-1em"
+                nameInput.style.border="solid  2px red"
+                nameInput.setAttribute("aria-label", texte)
+                
+            }
+        })
+        
+    }
+    //fonction envoi formulaire
+    function sendForm (event) {
+        event.preventDefault()
+        if(inputPrenom.value.length>1 && inputNom.value.length>1 && inputEmail.value.length>4 &&inputMessage.value.length>9 ){
+           
+            envoi.insertAdjacentElement("afterend",p).innerText="message Envoyé"
+            envoi.setAttribute("aria-label", "Votre message a bien été envoyé")
+            p.style.color="green"
+            form.reset()
+        }
+        else {                       
+
+            envoi.insertAdjacentElement("afterend",p).innerText="Veuillez remplir tous les champs"
+            envoi.setAttribute("aria-label", "Veuillez remplir tous les champs")
+            p.style.color="red"
+            p.style.fontSize="2em"
+        }
+        
+        
+    }
     //fonction focus d'element pour accessibiltié
     
     function focusElement (element, fontColorFocus, bgColorBlur, fontColorBlur){
  
-        element.addEventListener("focus", (e)=> {
+        element.addEventListener("focus", ()=> {
            element.style.backgroundColor="#DB8876"
            element.style.color=fontColorFocus
         })
-        element.addEventListener("blur", (e)=> {
+        element.addEventListener("blur", ()=> {
           element.style.backgroundColor=bgColorBlur
           element.style.color=fontColorBlur
       })
        }
-    
 
-    //création de l'encart Photographe
+       //fonction choix video ou image
+       function pictVid (el1,el2,el3, elimage, elvideo) {
+        el1.appendChild(el2).src= "img/"+elimage
+        
+        if (elimage== undefined){
+            el1.removeChild(el2)
+            el1.appendChild(el3).src="img/"+elvideo
+            
+        } }
+
+
+        //fonction responsive
+        function resizePage() {
+            if(matchMedia("(max-width:1450px)").matches) {
+                box.style.height="17.5em"
+                createDiv.style.fontSize="0.7em"
+            }
+         if(matchMedia("(max-width:1250px)").matches) {
+            main.style.padding="2em"
+            main.style.margin="0"      
+            chevron.style.width="28%"          
+            createDiv.style.backgroundColor="white"
+             buttonContact.style.position="fixed"
+             buttonContact.style.bottom="5%"
+             buttonContact.style.left="40%"
+            buttonContact.style.width="170px"
+             container.style.flexDirection="column"                        
+             box3.style.marginRight="4em"
+             box3.style.marginTop="-5em"
+             box.style.width="100%"
+             box.style.height="500px"
+             box.style.fontSize="2em"
+            box1.style.width="60%"
+             boxTags.style.fontSize="1.5em"
+             boxTri.style.fontSize="1em"
+             modal.style.width="100%"
+             modal.style.height="100%"
+             form.style.fontSize="0.8em"
+             modal.style.top="0"
+             modal.style.left="0"            
+         } 
+        
+         }
+
+         function selectionTri(a) {
+                     
+            a.addEventListener("click", ()=> {
+                
+            
+            buttonTri.style.height="50px"
+            buttonTri.style.backgroundColor="#901C1C"
+            buttonTri.style.color="white"
+            chevron.style.transform="rotate(0deg)"
+          
+            popularite.style.order="1"
+            date.style.order="1"
+            titre.style.order="1"
+                a.style.order="0"
+                nbr=0
+               
+                
+                  {
+                        if(popularite.style.order=="0") {
+                            
+                            box.style.order="-"+media[p].likes
+                          box.style.order=(Number(box.style.order)+400) 
+                            
+                          box.tabIndex=box.style.order
+                       }
+                }
+                        if (date.style.order=="0"){
+                           
+                            box.style.order="-"+box.className.replace("-","")
+                            box.style.order=(Number(box.style.order)+100000000) 
+                            
+                            box.tabIndex=box.style.order
+                           
+                        }
+
+                        if (titre.style.order=="0") {
+                            
+
+                            for(let j=0;j<4;j++){
+                               box.id.replace(" ","")
+                               box.id.replace(",","")
+                               box.style.order=box.id[0].charCodeAt()
+                               box.style.order+= box.id[1].charCodeAt()                                  
+                             
+                          
+                               box.tabIndex=box.style.order
+                               
+                            
+                            }
+                        }
+
+            })}
+
+            //fonction de tri
+            function dropDown () {
+                nbr++
+             
+             
+              if (nbr%2==0){
+                buttonTri.style.height="50px"
+                  date.tabIndex="-1"
+                  popularite.tabIndex="-1"
+                  titre.tabIndex="-1"
+                  chevron.style.transform="rotate(0deg)"
+                  buttonTri.style.backgroundColor="#901C1C"
+                  buttonTri.style.color="white"
+          
+          return nbr
+              }  
+           else {
+            buttonTri.style.height="160px"    
+            buttonTri.style.backgroundColor="#DB8876"
+        chevron.style.transform="rotate(180deg)"
+        buttonTri.style.color="black"
+                
+            }
+                     
+            }
+
+              //création de l'encart Photographe
     
         for(let i=0; i<photographers.length;i++){  
           
             if (window.location.search.slice(1)===photographers[i].name.replace(" ", "")){
-                photographerName = photographers[i].name;
+                
                 main.appendChild(createDiv);
                 main.style.paddingLeft="8em"
                 main.style.paddingRight="8em"
@@ -205,18 +428,7 @@ const getData = async function  () {
                 boxTags.style.justifyContent="flex-start"
                 boxTags.style.width="100%"
                 //button contact
-                function buttonCreate(buttonName){
-                buttonName.style.border="none"
-                buttonName.style.width="10em";
-                buttonName.style.height="4em";
-                buttonName.style.borderRadius="5px";
-                buttonName.style.backgroundColor="#901C1C"
-                buttonName.style.fontWeight="700";
-                buttonName.style.color="white"
-                buttonName.style.fontSize="1.2em"
-                buttonName.style.cursor="pointer"
-                
-                focusElement(buttonName,"black", "#911C1C","white" )}                
+                                
                 buttonCreate(buttonContact)
 
                     buttonContact.style.marginTop="2em"
@@ -224,7 +436,7 @@ const getData = async function  () {
 
                 //construction de la modal
 
-                const modal = document.createElement("aside")
+                modal = document.createElement("aside")
                 body.appendChild(modal)
                 modal.style.position="absolute"
                 //Div modal
@@ -242,28 +454,17 @@ const getData = async function  () {
                 modal.style.paddingTop="0"                
                 modal.style.color="#312E2E"
                 modal.style.transition="opacity 4s"
+
+
                 //on ferme le formulaire avec le clavier "touche escape"
                 window.addEventListener("keyup", e=>{ 
-               if (e.key=="Escape") {closeModal()}})
+               if (e.key=="Escape") {closeModal(modal)}})
 
                
 
 
-                //const des elements de la modal
-                const textEtClose=document.createElement("div")
-                const textContact =document.createElement("p")
-                const close= document.createElement("p")
-                const inputPrenom=document.createElement("input")
-                const inputNom=document.createElement("input")
-                const inputEmail=document.createElement("input")
-                const inputMessage=document.createElement("textarea")
-                const prenom=document.createElement("p")
-                const nom=document.createElement("p")
-                const email=document.createElement("p")
-                const message=document.createElement("p")
-                const envoi=document.createElement("button")               
-                const form= document.createElement("form")
-
+               
+               const close= document.createElement("p")
                        
                 form.style.display="flex"
                 form.style.flexDirection="column"
@@ -307,32 +508,20 @@ const getData = async function  () {
                 close.innerText="X"
                 close.style.cursor="pointer"
                 close.style.color="white"
-                close.addEventListener("click", closeModal)
+                close.addEventListener("click", ()=>{closeModal(modal)})
                 close.addEventListener("keyup", e=> {
-                    if(e.key=="Enter"){closeModal()}
+                    if(e.key=="Enter"){closeModal(modal)}
                 })
              
                 //on habille les input
-                function inputStyle (input) {
-
-                input.style.height="2em"
-                input.style.marginTop="-1em"
-                input.style.borderRadius="5px"
-                input.style.fontSize="2em"
-                input.style.outline="none"
-                input.setAttribute("type", "text")
-                }
+                
                 
                 inputStyle(inputPrenom)
                 inputStyle(inputNom)
                 inputStyle(inputEmail)
                 inputStyle(inputMessage)
 
-                //function fermeture de la modal
-                function closeModal () {
-                    modal.style.display="none";
-                    main.style.filter="none"
-                }
+                
                          
                 //champ de message
                 inputMessage.style.height="150px"               
@@ -346,60 +535,18 @@ const getData = async function  () {
 
                 //creation des règles et du paragraphe pour la modal
                 const nameReg = new RegExp(/[a-zA-Z]{2,10}/);
-                const emailReg = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+                const emailReg = new RegExp(/^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/);
                 const messageReg= new RegExp(/[a-zA-Z]{10,400}/)
-                let p = document.createElement("p")
+               
                
 
-                //fonction de validation des input
-                function checkForm (nameInput, regle, texte) {
-                    nameInput.addEventListener("input", (e)=> {
-                       
-                       if (regle.test(e.target.value)){
-                           p.parentNode.removeChild(p)
-                          nameInput.style.border="solid 2px green"
-                          nameInput.setAttribute("aria-label", "Nous avons bien enregistré votre"+nameInput.previousSibling.innerText)
-                          return true;
-                          
-                       }
-                       
-                       else {
-                           nameInput.insertAdjacentElement("afterend", p).innerText= texte  
-                            p.style.color="red";
-                            p.style.fontSize="2em"
-                            p.style.marginBottom="-1em"
-                            nameInput.style.border="solid  2px red"
-                            nameInput.setAttribute("aria-label", texte)
-                            
-                        }
-                    })
-                    
-                }
+               
                 checkForm(inputPrenom, nameReg, "veuillez entrer au minimum deux caractères pour votre prénom")
                 checkForm(inputNom, nameReg, "veuillez entrer au minimum deux caractères pour votre nom")
                 checkForm(inputEmail, emailReg, "veuillez entrer une adresse email valide")
                 checkForm(inputMessage, messageReg, "Veuillez entrer entrer un message de minimum 10 caractères")
 
-                //fonction envoi formulaire
-                function sendForm (event) {
-                    event.preventDefault()
-                    if(inputPrenom.value.length>1 && inputNom.value.length>1 && inputEmail.value.length>4 &&inputMessage.value.length>9 ){
-                       
-                        envoi.insertAdjacentElement("afterend",p).innerText="message Envoyé"
-                        envoi.setAttribute("aria-label", "Votre message a bien été envoyé")
-                        p.style.color="green"
-                        form.reset()
-                    }
-                    else {                       
-
-                        envoi.insertAdjacentElement("afterend",p).innerText="Veuillez remplir tous les champs"
-                        envoi.setAttribute("aria-label", "Veuillez remplir tous les champs")
-                        p.style.color="red"
-                        p.style.fontSize="2em"
-                    }
-                    
-                    
-                }
+                
 
                
                 
@@ -414,7 +561,7 @@ const getData = async function  () {
                     
                 
                 //fonction ouverture de la modal
-                const openModal= function (e) {
+                const openModal= function () {
                     modal.style.display="flex"
                     modal.style.opacity="1";
                     modal.focus()
@@ -438,15 +585,15 @@ const getData = async function  () {
               
                   
                  //création des element de filtres pour tri des photos
-                 let boxTri = document.createElement("div")
+                  boxTri = document.createElement("div")
                  let textTri= document.createElement("p")
-                 let buttonTri=document.createElement("button")
+                 buttonTri=document.createElement("button")
                  let listeTri=document.createElement("ul")
                  
-                 let popularite=document.createElement("li")
-                 let date=document.createElement("li")
-                 let titre= document.createElement("li")
-                 let chevron = document.createElement("i")
+                 popularite=document.createElement("li")
+                 date=document.createElement("li")
+                 titre= document.createElement("li")
+                 chevron = document.createElement("i")
                 
                  main.appendChild(boxTri)
 
@@ -510,17 +657,7 @@ const getData = async function  () {
                 popularite.style.order="0"
                 date.style.order="1"
                 titre.style.order="2"
-                function styleTri (a) {
-                    a.style.cursor="pointer"
-                    a.classList.add("option")
-                    a.style.borderTop="solid 1px"
-                    a.style.paddingTop="1.2em"
-                    a.style.marginLeft="0em"
-                    a.style.verticalAlign="bottom"
-                    a.style.width="80%"
-                    a.setAttribute("aria-label", "trier par"+a.innerText)
-                   
-                }
+               
 
                 //attribution des roles d'accesibilités
                 chevron.setAttribute("role", "button")
@@ -534,7 +671,7 @@ const getData = async function  () {
                 
 
                     if (media[p].photographerId==photographers[i].id){
-                        let box= document.createElement("div")
+                         box= document.createElement("div")
                         let picture= document.createElement("img")
                         let video=document.createElement("video")
                         let text=document.createElement("div")
@@ -570,19 +707,13 @@ const getData = async function  () {
                        
                         box.setAttribute("alt", media[p].title)
                                               
-                      
+                        let image=media[p].image;
+                        let videoElement=media[p].video;
                         
-                        function pictVid () {
-                        box.appendChild(picture).src= "img/"+media[p].image
                         
-                        if (media[p].image== undefined){
-                            box.removeChild(picture)
-                            box.appendChild(video).src="img/"+media[p].video
-                            
-                        } }
                      
                        
-                        pictVid()
+                        pictVid(box, picture, video, image, videoElement)
                       
                         video.style.width="100%"
                         video.style.height="100%"
@@ -593,7 +724,7 @@ const getData = async function  () {
                         video.setAttribute("controls", "true")
                         video.style.borderRadius="5px"  
                         video.setAttribute("class", "carouselStyle")
-                       video.setAttribute("aria-label", "cette video s'apelle" )
+                        video.setAttribute("aria-label", "cette video s'apelle" )
                         picture.setAttribute("class", "carouselStyle")                 
                         picture.setAttribute("aria-label", "cette photo s'apelle" )
                         picture.style.objectFit="cover";
@@ -632,7 +763,7 @@ const getData = async function  () {
                        totalLike.textContent=sumLike
 
                         heart.style.cursor="pointer"
-                        heart.addEventListener("click", (e)=> {
+                        heart.addEventListener("click", ()=> {
                             numberLikes.innerText= media[p].likes+=1
                             sumLike= sumLike+=1
                             totalLike.textContent=sumLike
@@ -652,43 +783,8 @@ const getData = async function  () {
                      window.addEventListener("resize", resizePage)
 
 
-                     //Partie Responsive
-                     function resizePage() {
-                        if(matchMedia("(max-width:1450px)").matches) {
-                            box.style.height="17.5em"
-                            createDiv.style.fontSize="0.7em"
-                        }
-                     if(matchMedia("(max-width:1250px)").matches) {
-                        main.style.padding="2em"
-                        main.style.margin="0"      
-                        chevron.style.width="28%"          
-                        createDiv.style.backgroundColor="white"
-                         buttonContact.style.position="fixed"
-                         buttonContact.style.bottom="5%"
-                         buttonContact.style.left="40%"
-                        buttonContact.style.width="170px"
-                         container.style.flexDirection="column"                        
-                         box3.style.marginRight="4em"
-                         box3.style.marginTop="-5em"
-                         box.style.width="100%"
-                         box.style.height="500px"
-                         box.style.fontSize="2em"
-                        box1.style.width="60%"
-                         boxTags.style.fontSize="1.5em"
-                         boxTri.style.fontSize="1em"
-                         modal.style.width="100%"
-                         modal.style.height="100%"
-                         form.style.fontSize="0.8em"
-                         modal.style.top="0"
-                         modal.style.left="0"
-                        
-                     } 
-                    
-                        
-                     else {
-                        
-                     }
-                     }
+                   
+                  
                      
                         //on créer les filtres de présentation des photos
                        
@@ -696,61 +792,8 @@ const getData = async function  () {
                      selectionTri(titre)
                      selectionTri(popularite)
 
-                     function selectionTri(a) {
-                     
-                        a.addEventListener("click", (e)=> {
-                            
-                        
-                           buttonTri.style.height="50px"
-                           buttonTri.style.backgroundColor="#901C1C"
-                           buttonTri.style.color="white"
-                        chevron.style.transform="rotate(0deg)"
-                      
-                        popularite.style.order="1"
-                        date.style.order="1"
-                        titre.style.order="1"
-                            a.style.order="0"
-                            nbr=0
-                           
-                            
-                              {
-                                    if(popularite.style.order=="0") {
-                                        
-                                        box.style.order="-"+media[p].likes
-                                      box.style.order=(Number(box.style.order)+400) 
-                                        
-                                      box.tabIndex=box.style.order
-                                   }
-                            }
-                                    if (date.style.order=="0"){
-                                       
-                                        box.style.order="-"+box.className.replace("-","")
-                                        box.style.order=(Number(box.style.order)+100000000) 
-                                        
-                                        box.tabIndex=box.style.order
-                                       
-                                    }
-
-                                    if (titre.style.order=="0") {
-                                        
-
-                                        for(let j=0;j<4;j++){
-                                            box.id.replace(" ","")
-                                            box.id.replace(",","")
-                                           box.style.order=box.id[0].charCodeAt()
-                                           box.style.order+= box.id[1].charCodeAt()                                  
-                                         
-                                      
-                                           box.tabIndex=box.style.order
-                                           
-                                        
-                                        }
-                                    }
-
-                        })}
-                         //ouverture et fermeture du champ de selection
-              
-                let nbr=0
+                  
+                         //ouverture et fermeture du champ de selection        
                 
                
                 chevron.addEventListener('click',  dropDown)
@@ -824,30 +867,7 @@ const getData = async function  () {
                 })
                
 
-                function dropDown () {
-                    nbr++
-                 
-                 
-                  if (nbr%2==0){
-                    buttonTri.style.height="50px"
-                      date.tabIndex="-1"
-                      popularite.tabIndex="-1"
-                      titre.tabIndex="-1"
-                      chevron.style.transform="rotate(0deg)"
-                      buttonTri.style.backgroundColor="#901C1C"
-                      buttonTri.style.color="white"
-              
-              return nbr
-                  }  
-               else {
-                buttonTri.style.height="160px"    
-                buttonTri.style.backgroundColor="#DB8876"
-            chevron.style.transform="rotate(180deg)"
-            buttonTri.style.color="black"
-                    
-                }
-                         
-                }
+               
 
                    
 
@@ -880,53 +900,45 @@ const getData = async function  () {
                         
                         //Création du Carousel                           
                                
-
-                              class Carousel {
-
-
-         /**
-         * @param {HTMLElement} element
-         * @param {Object} options
-         * @param {Object} options, slidesToScroll nombre d'elements à faire défiler.
-         * @param {Object} options, slidesVisible nombre d'elements visible
-         * @param {boolean} options.pagination=false
-         * @param {boolean} options.navigation=true
-         *          
-         */
-          
-         
-         constructor (element, options = {}) {
                     
+                     class CarouselFactory {       
+         
+         constructor (element, options ) {
+          new Carousel(element, options );}
+                              }
+
+         
+                    class Carousel {
+
+
+            constructor (element, options ){
             this.element = element
-            this.options = Object.assign ({}, {
+            this.options =  options
 
-               
-            }, options) 
-
-            let children = [].slice.call(document.querySelector("#container").children)
+            let children = [].slice.call(document.querySelector("#container").children)            
            
-           this.currentItem = 0
-           this.root = this.createDivWithClass("carousel", "div")
-           this.panorama = this.createDivWithClass('carousel__container', "div")
-           this.panorama.style.marginTop="4em"
-           this.root.appendChild(this.panorama)
-           this.element.appendChild(this.root)
+            this.currentItem = 0
+            this.root = this.createDivWithClass("carousel", "div")
+            this.panorama = this.createDivWithClass('carousel__container', "div")
+            this.panorama.style.marginTop="4em"
+            this.root.appendChild(this.panorama)
+            this.element.appendChild(this.root)
+                
+            this.items = children.map((child) => {
             
-           this.items = children.map((child) => {
-           
                let item = this.createDivWithClass("carousel__item", "div")
            
-               item.appendChild(child)  
-                      
-               child.style.width=window.innerWidth-400+"px"
-               child.style.height=window.innerHeight-100+"px"
-
-                    window.addEventListener("resize", e=>{
-                        child.style.width=window.innerWidth-400+"px"
-                        child.style.height=window.innerHeight-100+"px"
-                        })
+                    item.appendChild(child)  
                             
-                this.panorama.appendChild(item)
+                    child.style.width=window.innerWidth-400+"px"
+                    child.style.height=window.innerHeight-100+"px"
+
+                            window.addEventListener("resize", ()=>{
+                                child.style.width=window.innerWidth-400+"px"
+                                child.style.height=window.innerHeight-100+"px"
+                                })
+                            
+            this.panorama.appendChild(item)
                 return item
             })
              
@@ -947,11 +959,10 @@ const getData = async function  () {
                 } )
          
         } 
-        /**
-         * applique les bonnes dimensions aux élements du carousel
-         */
-
+       
         //evenement
+        
+
         
 
         setStyle () {
@@ -969,7 +980,7 @@ const getData = async function  () {
             closeButton.style.top="0"
             closeButton.style.right="5%"
             closeButton.style.position="fixed"
-            closeButton.addEventListener("click", (e)=> {
+            closeButton.addEventListener("click", ()=> {
                 
               console.log(location.href)
               window.location.reload()
@@ -978,7 +989,7 @@ const getData = async function  () {
             
         }
 
-        /** créer la recherche de la picture dans l'index  */
+        // créer la recherche de la picture dans l'index  
        goToIndexOnClick () {
           
             for (let i =0; i <this.items.length;i ++) {
@@ -993,7 +1004,7 @@ const getData = async function  () {
             }
 
         }
-
+        //création de la 
         createNavigation () {
 
             let nextButton = this.createDivWithClass('fas fa-chevron-right', "i")
@@ -1037,10 +1048,7 @@ const getData = async function  () {
 
      
 
-        /**
-         * deplace le carousel vers l'element cible
-         * @param {number} index 
-         */
+       
 
         gotToItem (index) {
             if (index < 0){
@@ -1058,11 +1066,7 @@ const getData = async function  () {
         }
 
 
-        /**
-         * 
-         * @param {string} className 
-         * @returns {HTMLElement}
-         */
+        
 
         createDivWithClass (className, balise) {
             let Balise = document.createElement(balise)
@@ -1083,48 +1087,39 @@ const getData = async function  () {
                 
         body.style.marginLeft="12em"
         body.style.overflow="hidden"
-        new Carousel (modal_carousel, {
-
-        
+        new  CarouselFactory (modal_carousel, {        
             slidesToScroll:1,
             slidesVisible:1,
-            pagination :true,
-            
+            pagination :true,            
     
           })
             
            }
         })
-     picture.addEventListener('click', launchCarousel )
-     video.addEventListener('click', launchCarousel)
-     
-     
-
-     function launchCarousel(e) {
+    box.addEventListener('click', (e)=> {
+      
         main.style.display="none"  
         boxFixe.style.display="none"  
-       location.hash=e.target.parentNode.id.replace(/ /g,"")
+        location.hash=e.target.id.replace(/ /g,"")
         const modal_carousel = document.createElement("aside")        
-        body.appendChild(modal_carousel)       
-       
+        body.appendChild(modal_carousel)        
                 
         body.style.marginLeft="12em"
         body.style.overflow="hidden"
-      
-      
-        
+        new  CarouselFactory (modal_carousel, {        
+            slidesToScroll:1,
+            slidesVisible:1,
+            pagination :true,           
     
+          })
+            
+           
+        })
+     
+     
+     
 
-      new Carousel (modal_carousel, {
-
-        
-        slidesToScroll:1,
-        slidesVisible:1,
-        pagination :true,
-        
-
-      })
-    }
+     
                          
                        
 

@@ -1,21 +1,15 @@
 
 //DOM element
 const h1 = document.querySelector("h1");
-const mainIndex = document.getElementsByClassName("index");
 const main= document.querySelector("main")
 const body=document.querySelector("body")
-const title=document.querySelector("title")
-let hidden=document.getElementsByClassName("hidden")
-
-
 
 //create Element 
 let createDiv = document.createElement("div");
-let listItem = document.createElement('div');
-const photographersData=[]
 const liButton= document.querySelectorAll("li");
 const tagsButton= document.getElementsByClassName("tags");
 const contenu= document.createElement("a")
+
 
 
 //création de la div passer au contenu
@@ -38,42 +32,39 @@ contenu.style.fontWeight="700"
  
  contenu.style.color="#000000"
  
- contenu.addEventListener("click", (e)=> {
+ contenu.addEventListener("click", ()=> {
   contenu.style.display="none"
   contenu.href="#container_photograph"
 })
  //on le fait apparaître uniquement au scroll
- function hiddenContenu () {
-   contenu.style.display="none"
- }
- window.addEventListener("scroll", e=> {
+ 
+ window.addEventListener("scroll", ()=> {
    
         contenu.style.display="flex"
       setTimeout(hiddenContenu,300)
+      function hiddenContenu () {
+        contenu.style.display="none";
+      }
  })
  
   
 
 
 //function focus
-function focusElement (element, fontColorFocus, bgColorBlur, fontColorBlur){
+
  
-  element.addEventListener("focus", (e)=> {
-     element.style.backgroundColor="#DB8876"
-     element.style.color=fontColorFocus
-  })
-  element.addEventListener("blur", (e)=> {
-    element.style.backgroundColor=bgColorBlur
-    element.style.color=fontColorBlur
-})
- }
+  
+ 
+
+ 
+ 
 
 //création de la div présentation des photographes
 main.appendChild(createDiv)
 
 createDiv.classList.add("photographer")
 createDiv.setAttribute("id", "container_photograph");
-const photoClass= document.getElementsByClassName('photographers')
+
 let divStyle=createDiv.style;
 divStyle.display="flex";
 divStyle.justifyContent="space-between";
@@ -93,7 +84,15 @@ for (let p=0;p<liButton.length;p++ ){
 
   
   liButton[p].classList.add("#"+liButton[p].id)
- focusElement(liButton[p], "black", "white","#911C1C" )
+
+ liButton[p].addEventListener("focus", ()=> {
+  liButton[p].style.backgroundColor="#DB8876"
+  liButton[p].style.color="black"
+})
+liButton[p].addEventListener("blur", ()=> {
+  liButton[p].style.backgroundColor="white"
+  liButton[p].style.color="#911C1C"
+})
  
 }
 
@@ -101,8 +100,6 @@ for (let p=0;p<liButton.length;p++ ){
 const getData = async function  () {
   let response = await fetch ("js/FishEyeData.json")
   let data = await response.json ()
-  
-  let media=data.media;
   let photographers=data.photographers; 
   const boxFilter = [];
   
@@ -162,7 +159,7 @@ const getData = async function  () {
     box.style.flexDirection="column";
     a.setAttribute("aria-label", "lien vers la page de"+ photographers[i].name)
     
-    a.tabIndex=+ i+"11"
+    a.tabIndex=Number(i)+"11"
     
     box.style.textAlign="center"
     box.style.alignItems="center"
@@ -170,9 +167,8 @@ const getData = async function  () {
     box.style.width="20%";
     box.style.cursor="pointer";
     
-    resizePage()
-    window.addEventListener("resize", resizePage)
-    function resizePage() {
+    
+    window.addEventListener("resize", ()=> {
       if(window.innerWidth<1400) {
         box.style.fontSize="0.8em"
       }
@@ -181,7 +177,8 @@ const getData = async function  () {
         box.style.width="100%"
       } 
      
-    }
+    })
+   
    
     
 
@@ -234,21 +231,49 @@ const getData = async function  () {
       Tags.classList.add(Tags.textContent)
       Tags.width="auto";
       Tags.tabIndex=i+"13"
-      focusElement(Tags, "black", "white","#911C1C" )
-
-    
+     
+      Tags.addEventListener("focus", ()=> {
+        Tags.style.backgroundColor="#DB8876"
+        Tags.style.color="black"
+      })
+      Tags.addEventListener("blur", ()=> {
+        Tags.style.backgroundColor="white"
+        Tags.style.color="#911C1C"
+      })
+      
   
       
     //création du filtre de recherche de tags
             for (let p=0;p<tagsButton.length;p++ ){           
     
-     tagsButton[p].addEventListener("click", triTags)
+    
      tagsButton[p].addEventListener("keypress", (e)=> {
      
-      if((e).keyCode==0xD){triTags()}
+      if((e).keyCode==0xD){
+       let info =tagsButton[p].className
+      const filterTags =[]
+      filterTags.push(info);     
+      createDiv.style.justifyContent="flex-start"
+      
+      console.log(filterTags[0])
+    
+      let result = boxFilter[i].filter((element) =>"tags #"+element == (filterTags[0]));
+      console.log(filterTags)
+    
+        if("tags #"+result[0]==(filterTags[0]))
+        {             
+          box.style.display="flex"                      
+        }
+        else{         
+          box.style.display="none"    
+          
+        }     
+     
+  }  
      })
 
-     function triTags ()           
+     tagsButton[p].addEventListener("click", ()=>
+              
      
       {      
        let info =tagsButton[p].className
@@ -261,23 +286,23 @@ const getData = async function  () {
       let result = boxFilter[i].filter((element) =>"tags #"+element == (filterTags[0]));
       console.log(filterTags)
     
-        if("tags #"+result[0]!==(filterTags[0]))
-        {             
-          box.style.display="none"                      
-        }
-        else{         
-          box.style.display="flex"    
-          
-        }     
+      if("tags #"+result[0]==(filterTags[0]))
+      {             
+        box.style.display="flex"                      
+      }
+      else{         
+        box.style.display="none"    
+        
+      }     
      
-  }      
+  }   )   
      }
      
 
      
 //on lance la  page des photograph au clic
 
-     a.addEventListener('click', (e)=>{       
+     a.addEventListener('click', ()=>{       
    
       open(url, '_self', false)   ;
       
@@ -300,38 +325,8 @@ h1.addEventListener('keypress', (e)=>{
 
 
 
-}};
+}}
 
 }
 
     getData()
-   
-   
-
-
-
-
-     
-    
-    
-   
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
