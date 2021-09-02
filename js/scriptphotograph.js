@@ -723,9 +723,9 @@ const getData = async function  () {
                         video.setAttribute("allow", "autoplay")
                         video.setAttribute("controls", "true")
                         video.style.borderRadius="5px"  
-                        video.setAttribute("class", "carouselStyle")
+                        video.setAttribute("class", "carouselVideo")
                         video.setAttribute("aria-label", "cette video s'apelle" )
-                        picture.setAttribute("class", "carouselStyle")                 
+                        picture.setAttribute("class", "carouselImage")                 
                         picture.setAttribute("aria-label", "cette photo s'apelle" )
                         picture.style.objectFit="cover";
                         picture.style.overflow="hidden"
@@ -901,193 +901,203 @@ const getData = async function  () {
                         //Création du Carousel                           
                                
                     
-                     class CarouselFactory {       
-         
-         constructor (element, options ) {
-          new Carousel(element, options );}
-                              }
+                  
 
          
                     class Carousel {
 
+            constructor (element, options ){ 
+                     
+                 new BuildDom(element,options)
+        } 
+    } 
+      
 
-            constructor (element, options ){
+        
+
+      class BuildDom {
+        constructor(element, options){
             this.element = element
-            this.options =  options
-
-            let children = [].slice.call(document.querySelector("#container").children)            
-           
+            this.options =  options           
             this.currentItem = 0
             this.root = this.createDivWithClass("carousel", "div")
             this.panorama = this.createDivWithClass('carousel__container', "div")
             this.panorama.style.marginTop="4em"
             this.root.appendChild(this.panorama)
-            this.element.appendChild(this.root)
-                
+            this.element.appendChild(this.root)                
+            
+    this.loadmedia ()
+    this.setStyle()
+    this.createNavigation()
+    this.closeNavigation()
+    this.goToIndexOnClick()}
+
+    loadmedia () {
+            
+            let children = [].slice.call(document.querySelector("#container").children)
+           
             this.items = children.map((child) => {
-            
-               let item = this.createDivWithClass("carousel__item", "div")
-           
-                    item.appendChild(child)  
-                            
-                    child.style.width=window.innerWidth-400+"px"
-                    child.style.height=window.innerHeight-100+"px"
-
-                            window.addEventListener("resize", ()=>{
-                                child.style.width=window.innerWidth-400+"px"
-                                child.style.height=window.innerHeight-100+"px"
-                                })
-                            
-            this.panorama.appendChild(item)
-                return item
-            })
-             
-           
-            this.setStyle()
-            this.createNavigation()
-            this.closeNavigation()
-            this.goToIndexOnClick()
-           
-            window.addEventListener("keyup", (e)=>{
-                if(e.key=="ArrowRight"){
-                   this.next()               }
-                if(e.key=="ArrowLeft"){
-                    this.prev()}
-                if(e.key=="Escape"){
-                    window.location.reload()
-                }
-                } )
-         
-        } 
-       
-        //evenement
-        
-
-        
-
-        setStyle () {
-            let ratio = this.items.length / this.options.slidesVisible
-            this.panorama.style.width=(ratio * 100)+"%"
-            this.items.forEach(item => item.style.width =((100 / this.options.slidesVisible) / ratio) + "%")
-            
-        }
-        closeNavigation () {
-            let closeButton = this.createDivWithClass("fas fa-times", "i")
-            this.root.appendChild(closeButton)
-            closeButton.style.fontSize="5em"
-           
-            closeButton.style.color="#911C1C"
-            closeButton.style.top="0"
-            closeButton.style.right="5%"
-            closeButton.style.position="fixed"
-            closeButton.addEventListener("click", ()=> {
                 
-              console.log(location.href)
-              window.location.reload()
+            let item = this.createDivWithClass("carousel__item", "div")
+        
+            item.appendChild(child)  
+                            
+             child.style.width=window.innerWidth-400+"px"
+             child.style.height=window.innerHeight-100+"px"
+
+                 window.addEventListener("resize", ()=>{
+                      child.style.width=window.innerWidth-400+"px"
+                      child.style.height=window.innerHeight-100+"px"
+                                })
+            let photoName= child.childNodes[1].innerText
+         
+            this.panorama.appendChild(item)
+
+            if (child.childNodes[0].src.includes("jpg")){
+                child.childNodes[0].setAttribute("aria-label", "cette photo s'apelle"+photoName)
+               
             }
-            )
-            
-        }
+            else if (child.childNodes[0].src.includes("mp4"))
+            {
+                child.childNodes[0].setAttribute("aria-label", "cette video s'apelle"+photoName)
+                child.childNodes[0].controls = true;
+            child.childNodes[0].getAttribute("allow", "autoplay")}
 
-        // créer la recherche de la picture dans l'index  
-       goToIndexOnClick () {
-          
-            for (let i =0; i <this.items.length;i ++) {
-               console.log(this.items[i].children[0].id)
-                if (location.hash.replace("#","") == this.items[i].children[0].id.replace(/ /g,"")) {
-                    
-                                       
-                  this.gotToItem(i)
-
-                }
-              
-            }
-
-        }
-        //création de la 
-        createNavigation () {
-
-            let nextButton = this.createDivWithClass('fas fa-chevron-right', "i")
-            let prevButton = this.createDivWithClass('fas fa-chevron-left', "i")
-            this.root.appendChild(nextButton)
-            this.root.appendChild(prevButton)
-            nextButton.style.marginTop=(window.innerHeight-100)/2+"px"
-            prevButton.style.marginTop=(window.innerHeight-100)/2+"px"
             
-            nextButton.style.color="#911C1C"
-            nextButton.style.position="fixed"
-            nextButton.style.top="0"
-            
-            nextButton.style.fontSize="5em"
-            nextButton.style.right="5%"
-            prevButton.style.left="5%"
-            prevButton.style.top="0"
-            prevButton.style.color="#911C1C"
-            prevButton.style.position="fixed"
-            prevButton.style.fontSize="5em"
+        return item
+       
+    })
+    }
 
-           
-            
-            nextButton.addEventListener("click", this.next.bind(this) )
-            prevButton.addEventListener("click", this.prev.bind(this) )
-          
-            
-        } 
-    
     
 
-        next () {
-            this.gotToItem(this.currentItem + this.options.slidesToScroll)            
-
-        }
-        prev () {
-            this.gotToItem(this.currentItem - this.options.slidesToScroll)
-        }
-
+    setStyle () {
+        let ratio = this.items.length / this.options.slidesVisible
+        this.panorama.style.width=(ratio * 100)+"%"
+        this.items.forEach(item => item.style.width =((100 / this.options.slidesVisible) / ratio) + "%")
+      
+    }
+    closeNavigation () {
+        let closeButton = this.createDivWithClass("fas fa-times", "i")
+        this.root.appendChild(closeButton)
+        closeButton.style.fontSize="5em"
        
+        closeButton.style.color="#911C1C"
+        closeButton.style.top="0"
+        closeButton.style.right="5%"
+        closeButton.style.position="fixed"
+        closeButton.addEventListener("click", ()=> {
+            
+          console.log(location.href)
+          window.location.reload()
+        }
+        )
+        
+    }
 
-     
-
-       
-
-        gotToItem (index) {
-            if (index < 0){
-                index = this.items.length - this.options.slidesToScroll
+    // créer la recherche de la picture dans l'index  
+   goToIndexOnClick () {
+      
+        for (let i =0; i <this.items.length;i ++) {
+          
+            if (location.hash.replace("#","") == this.items[i].children[0].id.replace(/ /g,"")) {
+                
+                                   
+              this.gotToItem(i)
 
             }
-            if (index>=this.items.length){
-                index = 0
-            }
-            let translateX= index * -100/ this.items.length
-           console.log(index)
-            this.panorama.style.transform ="translate3d(" + translateX + "%,0,0)";
-            this.currentItem = index           
-
+          
         }
 
+    }
+    
+    createNavigation () {
 
+        let nextButton = this.createDivWithClass('fas fa-chevron-right', "i")
+        let prevButton = this.createDivWithClass('fas fa-chevron-left', "i")
+        this.root.appendChild(nextButton)
+        this.root.appendChild(prevButton)
+        nextButton.style.marginTop=(window.innerHeight-100)/2+"px"
+        prevButton.style.marginTop=(window.innerHeight-100)/2+"px"
         
-
-        createDivWithClass (className, balise) {
-            let Balise = document.createElement(balise)
-            Balise.setAttribute('class', className)
-            return Balise
-
-        }
+        nextButton.style.color="#911C1C"
+        nextButton.style.position="fixed"
+        nextButton.style.top="0"
+        
+        nextButton.style.fontSize="5em"
+        nextButton.style.right="5%"
+        prevButton.style.left="5%"
+        prevButton.style.top="0"
+        prevButton.style.color="#911C1C"
+        prevButton.style.position="fixed"
+        prevButton.style.fontSize="5em"
        
         
-      } 
+        nextButton.addEventListener("click", this.next.bind(this) )
+        prevButton.addEventListener("click", this.prev.bind(this) )
+        window.addEventListener("keyup", (e)=>{
+            if(e.key=="ArrowRight"){
+               this.next()               }
+            if(e.key=="ArrowLeft"){
+                this.prev()}
+            if(e.key=="Escape"){
+                window.location.reload()
+            }
+            } )
+      
+        
+    }    
+
+
+    next () {
+        this.gotToItem(this.currentItem + this.options.slidesToScroll)            
+
+    }
+    prev () {
+        this.gotToItem(this.currentItem - this.options.slidesToScroll)
+    }      
+
+    gotToItem (index) {
+        if (index < 0){
+            index = this.items.length - this.options.slidesToScroll
+
+        }
+        if (index>=this.items.length){
+            index = 0
+        }
+        let translateX= index * -100/ this.items.length
+        console.log(index)
+        this.panorama.style.transform ="translate3d(" + translateX + "%,0,0)";
+        this.currentItem = index           
+
+    }
+
+
+    
+
+    createDivWithClass (className, balise) {
+        let Balise = document.createElement(balise)
+        Balise.setAttribute('class', className)
+        return Balise
+
+    }
+   
+}
+
+
      box.addEventListener("keyup", (e)=> {
         if ((e).key=='Enter') {
         main.style.display="none"  
         boxFixe.style.display="none"  
-        location.hash=e.target.id.replace(/ /g,"")
+        location.hash=e.target.parentNode.id.replace(/ /g,"")
+        
+       
         const modal_carousel = document.createElement("aside")        
         body.appendChild(modal_carousel)        
                 
         body.style.marginLeft="12em"
         body.style.overflow="hidden"
-        new  CarouselFactory (modal_carousel, {        
+        new  Carousel (modal_carousel, {        
             slidesToScroll:1,
             slidesVisible:1,
             pagination :true,            
@@ -1100,13 +1110,14 @@ const getData = async function  () {
       
         main.style.display="none"  
         boxFixe.style.display="none"  
-        location.hash=e.target.id.replace(/ /g,"")
+        location.hash=e.target.parentNode.id.replace(/ /g,"")
+        console.log(e.target)
         const modal_carousel = document.createElement("aside")        
         body.appendChild(modal_carousel)        
                 
         body.style.marginLeft="12em"
         body.style.overflow="hidden"
-        new  CarouselFactory (modal_carousel, {        
+        new  Carousel (modal_carousel, {        
             slidesToScroll:1,
             slidesVisible:1,
             pagination :true,           
