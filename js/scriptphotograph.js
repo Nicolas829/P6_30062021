@@ -201,15 +201,7 @@ const getData = async function  () {
       })
        }
 
-       //fonction choix video ou image
-       function pictVid (el1,el2,el3, elimage, elvideo) {
-        el1.appendChild(el2).src= "img/"+elimage
-        
-        if (elimage== undefined){
-            el1.removeChild(el2)
-            el1.appendChild(el3).src="img/"+elvideo
-            
-        } }
+      
 
 
         //fonction responsive
@@ -664,16 +656,48 @@ const getData = async function  () {
                 chevron.setAttribute("aria-haspopup", "listbox")
                 chevron.setAttribute("aria-expanded", "true")
 
-               
-             
-                //partie container photos
-               for (let p=0;p<media.length;p++)
-                
+                for (let p=0;p<media.length;p++)               
 
-                    if (media[p].photographerId==photographers[i].id){
-                         box= document.createElement("div")
-                        let picture= document.createElement("img")
-                        let video=document.createElement("video")
+                if (media[p].photographerId==photographers[i].id){
+
+               
+
+                class mediaFactory {
+                    
+                    constructor (mediaCard, url) {
+                        
+                        this.mediaCard=mediaCard                        
+                        this.mediaCard=document.createElement("img")
+                        this.url=url
+                        this.url = "/img/"+media[p].image
+                        this.mediaCard.src=this.url
+                       
+                        if(this.url.includes("undefined")){
+                            this.url="/img/"+media[p].video
+                            this.mediaCard=document.createElement("video")
+                            this.mediaCard.src=this.url
+                            this.mediaCard.setAttribute("type", "video/mp4")
+                            this.mediaCard.setAttribute("allow", "autoplay")
+                            this.mediaCard.setAttribute("controls", "true")                           
+                            this.mediaCard.setAttribute("class", "carouselVideo")
+                            this.mediaCard.setAttribute("aria-label", "cette video s'apelle" )
+                        }
+                        
+                        this.buildDom()
+                    }
+                    
+                        
+
+
+                       
+                           
+                buildDom () {
+                  
+                                    
+                //partie container photos
+                                  
+                       
+                        box=document.createElement("div")
                         let text=document.createElement("div")
                         let picturesName= document.createElement("p")
                         let boxLikes=document.createElement("div")
@@ -695,43 +719,29 @@ const getData = async function  () {
                         container.style.marginTop="3em"
                          //création des box photos
                         container.appendChild(box)
+                        
                         //mise en page des box
                        
-                        box.style.display="flex"
-                        box.style.flexDirection="column"      
-                                      
-                        
-                        box.style.width="25%"
-                        box.style.height="400px"
-                        box.style.alignItems="center"
+                       box.style.display="flex"
+                       box.style.flexDirection="column"      
+                       box.style.width="25%"
+                       box.style.height="400px"
+                       box.style.alignItems="center"
+                       box.setAttribute("alt", media[p].title)
+                       box.tabIndex="21"                     
                        
-                        box.setAttribute("alt", media[p].title)
-                                              
-                        let image=media[p].image;
-                        let videoElement=media[p].video;
-                        
-                        
-                     
+                         //fonction choix video ou image
+      
                        
-                        pictVid(box, picture, video, image, videoElement)
-                      
-                        video.style.width="100%"
-                        video.style.height="100%"
-                        video.style.overflow="hidden"
-                        video.style.objectFit="cover"
-                        video.setAttribute("type", "video/mp4")
-                        video.setAttribute("allow", "autoplay")
-                        video.setAttribute("controls", "true")
-                        video.style.borderRadius="5px"  
-                        video.setAttribute("class", "carouselVideo")
-                        video.setAttribute("aria-label", "cette video s'apelle" )
-                        picture.setAttribute("class", "carouselImage")                 
-                        picture.setAttribute("aria-label", "cette photo s'apelle" )
-                        picture.style.objectFit="cover";
-                        picture.style.overflow="hidden"
-                        picture.style.width="100%"
-                        picture.style.height="100%"
-                        picture.style.borderRadius="5px"  
+                        
+                         this.mediaCard.setAttribute("class", "carouselImage")                 
+                         this.mediaCard.setAttribute("aria-label", "cette photo s'apelle" )
+                         this.mediaCard.style.objectFit="cover";
+                         this.mediaCard.style.overflow="hidden"
+                         this.mediaCard.style.width="100%"
+                         this.mediaCard.style.height="100%"
+                         this.mediaCard.style.borderRadius="5px"  
+                        box.appendChild(this.mediaCard)
                         box.appendChild(text)
                         text.appendChild(picturesName).innerText=media[p].title
                         text.setAttribute("aria-label", media[p].title+"       et a "+media[p].likes+"like")
@@ -740,7 +750,48 @@ const getData = async function  () {
                         
                         boxLikes.appendChild(heart)
                        
-                  
+                        //
+                       box.addEventListener("keyup", (e)=> {
+                            if ((e).key=='Enter') {
+                            main.style.display="none"  
+                            boxFixe.style.display="none"  
+                            location.hash=e.target.parentNode.id.replace(/ /g,"")
+                            
+                           
+                            const modal_carousel = document.createElement("aside")        
+                            body.appendChild(modal_carousel)        
+                                    
+                            body.style.marginLeft="12em"
+                            body.style.overflow="hidden"
+                            new  Carousel (modal_carousel, {        
+                                slidesToScroll:1,
+                                slidesVisible:1,
+                                pagination :true,            
+                        
+                              })
+                                
+                               }
+                            })
+                        box.addEventListener('click', (e)=> {
+                          
+                            main.style.display="none"  
+                            boxFixe.style.display="none"  
+                            location.hash=e.target.parentNode.id.replace(/ /g,"")
+                            
+                            const modal_carousel = document.createElement("aside")        
+                            body.appendChild(modal_carousel)        
+                                    
+                            body.style.marginLeft="12em"
+                            body.style.overflow="hidden"
+                            new  Carousel (modal_carousel, {        
+                                slidesToScroll:1,
+                                slidesVisible:1,
+                                pagination :true,           
+                        
+                              })
+                                
+                               
+                            })
                         
                        heart.classList.add("far")
                        heart.classList.add("fa-heart")                 
@@ -866,7 +917,7 @@ const getData = async function  () {
                     }
                 })
                
-
+            }}new mediaFactory}
                
 
                    
@@ -885,7 +936,7 @@ const getData = async function  () {
                         textTri.tabIndex="15"
                         buttonTri.tabIndex="16"                       
                         chevron.tabIndex="17"
-                        box.tabIndex="21"
+                       
                        chevron.addEventListener("keypress", (e)=>{
                            
                            if((e).key=="Enter"){
@@ -912,8 +963,7 @@ const getData = async function  () {
         } 
     } 
       
-
-        
+      
 
       class BuildDom {
         constructor(element, options){
@@ -937,7 +987,7 @@ const getData = async function  () {
             let children = [].slice.call(document.querySelector("#container").children)
            
             this.items = children.map((child) => {
-                
+              
             let item = this.createDivWithClass("carousel__item", "div")
         
             item.appendChild(child)  
@@ -1066,7 +1116,7 @@ const getData = async function  () {
             index = 0
         }
         let translateX= index * -100/ this.items.length
-        console.log(index)
+        
         this.panorama.style.transform ="translate3d(" + translateX + "%,0,0)";
         this.currentItem = index           
 
@@ -1085,47 +1135,7 @@ const getData = async function  () {
 }
 
 
-     box.addEventListener("keyup", (e)=> {
-        if ((e).key=='Enter') {
-        main.style.display="none"  
-        boxFixe.style.display="none"  
-        location.hash=e.target.parentNode.id.replace(/ /g,"")
-        
-       
-        const modal_carousel = document.createElement("aside")        
-        body.appendChild(modal_carousel)        
-                
-        body.style.marginLeft="12em"
-        body.style.overflow="hidden"
-        new  Carousel (modal_carousel, {        
-            slidesToScroll:1,
-            slidesVisible:1,
-            pagination :true,            
     
-          })
-            
-           }
-        })
-    box.addEventListener('click', (e)=> {
-      
-        main.style.display="none"  
-        boxFixe.style.display="none"  
-        location.hash=e.target.parentNode.id.replace(/ /g,"")
-        console.log(e.target)
-        const modal_carousel = document.createElement("aside")        
-        body.appendChild(modal_carousel)        
-                
-        body.style.marginLeft="12em"
-        body.style.overflow="hidden"
-        new  Carousel (modal_carousel, {        
-            slidesToScroll:1,
-            slidesVisible:1,
-            pagination :true,           
-    
-          })
-            
-           
-        })
      
      
      
@@ -1137,7 +1147,7 @@ const getData = async function  () {
                     }}
                  
 
-}}
+}
 
 
 getData()
