@@ -662,33 +662,66 @@ const getData = async function  () {
 
                
 
-                class mediaFactory {
+
                     
-                    constructor (mediaCard, url) {
-                        
-                        this.mediaCard=mediaCard                        
-                        this.mediaCard=document.createElement("img")
-                        this.url=url
-                        this.url = "/img/"+media[p].image
-                        this.mediaCard.src=this.url
-                       
-                        if(this.url.includes("undefined")){
-                            this.url="/img/"+media[p].video
-                            this.mediaCard=document.createElement("video")
-                            this.mediaCard.src=this.url
-                            this.mediaCard.setAttribute("type", "video/mp4")
-                            this.mediaCard.setAttribute("allow", "autoplay")
-                            this.mediaCard.setAttribute("controls", "true")                           
-                            this.mediaCard.setAttribute("class", "carouselVideo")
-                            this.mediaCard.setAttribute("aria-label", "cette video s'apelle" )
+
+                    class photoCard{
+                        constructor(url, media){   
+                          
+                           this.media=media
+                           this.media=document.createElement("img")                                                  
+                           this.media.setAttribute("class", "carouselImage")                 
+                           this.media.setAttribute("aria-label", "cette photo s'apelle" )
+                           this.media.style.objectFit="cover";
+                           this.media.style.overflow="hidden"
+                           this.media.style.width="100%"
+                           this.media.style.height="100%"
+                           this.media.style.borderRadius="5px"  
+                           this.media.src=url
+                           return this.media
+                          
                         }
-                        
-                        this.buildDom()
                     }
-                    
-                        
 
-
+                    class videoCard {
+                        constructor(url, media){
+                           this.media=media
+                           this.media=document.createElement("video")                           
+                           this.media.src=url
+                           this.media.setAttribute("type", "video/mp4")
+                           this.media.setAttribute("allow", "autoplay")
+                           this.media.setAttribute("controls", "true")                           
+                           this.media.setAttribute("class", "carouselVideo")
+                           this.media.setAttribute("aria-label", "cette video s'apelle" )
+                          return this.media
+                     }
+                 }
+     
+                     class mediaFactory {
+                         
+                         constructor (mediaCard, url) {
+                             
+                             this.mediaCard=mediaCard
+                             this.url=url
+                             this.url = "/img/"+media[p].image
+                             
+                            
+                             if(this.url.includes("jpg")){
+                                this.url = "/img/"+media[p].image
+                                 this.mediaCard=new photoCard(this.url)
+                                 
+                             }
+                             
+                            
+                             else if(this.url.includes("undefined")){
+                                 this.url="/img/"+media[p].video
+                                 this.mediaCard=new videoCard(this.url)
+                                 
+                                
+                             }
+                             
+                             this.buildDom()
+                         }
                        
                            
                 buildDom () {
