@@ -52,7 +52,7 @@ let box;
 let chevron;
 let modal;
 let boxTri;
-let nbr=0
+let nbr=0;
 let buttonTri;
 let popularite;
 let date;
@@ -86,8 +86,8 @@ heartFixe.classList.add("far")
 heartFixe.classList.add("fa-heart")
 heartFixe.style.marginLeft="-2em"
 heartFixe.addEventListener("click", ()=>{
- totalLike.textContent=(sumLike+=1).toLocaleString()
- heartFixe.classList.replace("far","fas") })
+totalLike.textContent=(sumLike+=1).toLocaleString()
+heartFixe.classList.replace("far","fas") })
 
 //on va chercher le JSON
 const getData = async function  () {
@@ -237,9 +237,9 @@ const getData = async function  () {
         
          }
 
-         function selectionTri(a) {
+         function selectionTri(a, box) {
                      
-            a.addEventListener("click", ()=> {
+            a.addEventListener("click", (e)=> {
                 
             
             buttonTri.style.height="50px"
@@ -253,28 +253,26 @@ const getData = async function  () {
                 a.style.order="0"
                 nbr=0
                
-                
-                  {
+                console.log(box)
+                  
                         if(popularite.style.order=="0") {
                             
-                            box.style.order="-"+media[p].likes
-                          box.style.order=(Number(box.style.order)+400) 
-                            
+                          box.style.order="-"+box.getAttribute("data-order")
+                          box.style.order=(Number(box.style.order)+400)                             
                           box.tabIndex=box.style.order
                        }
-                }
+                
                         if (date.style.order=="0"){
                            
                             box.style.order="-"+box.className.replace("-","")
-                            box.style.order=(Number(box.style.order)+100000000) 
-                            
+                            box.style.order=(Number(box.style.order)+100000000)                             
                             box.tabIndex=box.style.order
                            
                         }
 
                         if (titre.style.order=="0") {
                             
-
+                            
                             for(let j=0;j<4;j++){
                                box.id.replace(" ","")
                                box.id.replace(",","")
@@ -286,9 +284,66 @@ const getData = async function  () {
                                
                             
                             }
-                        }
+                        }}
 
-            })}
+            )}
+            function selectionTriEnter(a, box) {
+                     
+                a.addEventListener("keyup", e=> {
+                               
+                    if(e.key=="Enter"){
+                buttonTri.style.height="50px"
+                buttonTri.style.backgroundColor="#901C1C"
+                buttonTri.style.color="white"
+                chevron.style.transform="rotate(0deg)"
+                box.tabIndex="0"
+                popularite.style.order="1"
+                date.style.order="1"
+                titre.style.order="1"
+                a.style.order="0"
+                popularite.tabIndex="-1"
+                date.tabIndex="-1"
+                titre.tabIndex="-1"
+                a.tabIndex="18"
+             
+                    nbr=0
+                   
+                    
+                      
+                            if(popularite.style.order=="0") {
+                                
+                              box.style.order="-"+box.getAttribute("data-order")
+                              box.style.order=(Number(box.style.order)+400)                             
+                              box.tabIndex=box.style.order
+                           }
+                    
+                            if (date.style.order=="0"){
+                                
+                                box.style.order="-"+box.className.replace("-","")
+                                box.style.order=(Number(box.style.order)+100000000)                             
+                                box.tabIndex=box.style.order
+                                
+                               
+                            }
+    
+                            if (titre.style.order=="0") {
+                                
+                                console.log(box)
+                                for(let j=0;j<4;j++){
+                                   box.id.replace(" ","")
+                                   box.id.replace(",","")
+                                   box.style.order=box.id[0].charCodeAt()
+                                   box.style.order+= box.id[1].charCodeAt()                                  
+                                 
+                              
+                                   box.tabIndex=box.style.order
+                                   
+                                
+                                }
+                            }}
+    
+                        })}
+    
 
             //fonction de tri
             function dropDown () {
@@ -309,8 +364,8 @@ const getData = async function  () {
            else {
             buttonTri.style.height="160px"    
             buttonTri.style.backgroundColor="#DB8876"
-        chevron.style.transform="rotate(180deg)"
-        buttonTri.style.color="black"
+            chevron.style.transform="rotate(180deg)"
+            buttonTri.style.color="black"
                 
             }
                      
@@ -536,9 +591,7 @@ const getData = async function  () {
                 checkForm(inputPrenom, nameReg, "veuillez entrer au minimum deux caractères pour votre prénom")
                 checkForm(inputNom, nameReg, "veuillez entrer au minimum deux caractères pour votre nom")
                 checkForm(inputEmail, emailReg, "veuillez entrer une adresse email valide")
-                checkForm(inputMessage, messageReg, "Veuillez entrer entrer un message de minimum 10 caractères")
-
-                
+                checkForm(inputMessage, messageReg, "Veuillez entrer entrer un message de minimum 10 caractères")              
 
                
                 
@@ -658,14 +711,12 @@ const getData = async function  () {
 
                 for (let p=0;p<media.length;p++)               
 
-                if (media[p].photographerId==photographers[i].id){
-
-               
+                if (media[p].photographerId==photographers[i].id){   
 
 
                     
 
-                    class photoCard{
+                    class PhotoCard{
                         constructor(url, media){   
                           
                            this.media=media
@@ -683,9 +734,10 @@ const getData = async function  () {
                         }
                     }
 
-                    class videoCard {
+                    class VideoCard {
                         constructor(url, media){
                            this.media=media
+                           this.url=url
                            this.media=document.createElement("video")                           
                            this.media.src=url
                            this.media.setAttribute("type", "video/mp4")
@@ -693,29 +745,28 @@ const getData = async function  () {
                            this.media.setAttribute("controls", "true")                           
                            this.media.setAttribute("class", "carouselVideo")
                            this.media.setAttribute("aria-label", "cette video s'apelle" )
-                          return this.media
+                          return this.media;
                      }
                  }
      
-                     class mediaFactory {
+                     class MediaFactory {
                          
                          constructor (mediaCard, url) {
                              
                              this.mediaCard=mediaCard
                              this.url=url
-                             this.url = "/img/"+media[p].image
-                             
+                             this.url = "/img/"+media[p].image                             
                             
                              if(this.url.includes("jpg")){
                                 this.url = "/img/"+media[p].image
-                                 this.mediaCard=new photoCard(this.url)
-                                 
+                                 this.mediaCard=new PhotoCard(this.url)
+                                
                              }
                              
                             
                              else if(this.url.includes("undefined")){
                                  this.url="/img/"+media[p].video
-                                 this.mediaCard=new videoCard(this.url)
+                                 this.mediaCard=new VideoCard(this.url)
                                  
                                 
                              }
@@ -727,8 +778,7 @@ const getData = async function  () {
                 buildDom () {
                   
                                     
-                //partie container photos
-                                  
+                //partie container photos                    
                        
                         box=document.createElement("div")
                         let text=document.createElement("div")
@@ -783,8 +833,8 @@ const getData = async function  () {
                         
                         boxLikes.appendChild(heart)
                        
-                        //
-                       box.addEventListener("keyup", (e)=> {
+                       
+                        box.addEventListener("keyup", (e)=> {
                             if ((e).key=='Enter') {
                             main.style.display="none"  
                             boxFixe.style.display="none"  
@@ -805,7 +855,7 @@ const getData = async function  () {
                                 
                                }
                             })
-                        box.addEventListener('click', (e)=> {
+                       this.mediaCard.addEventListener('click', (e)=> {
                           
                             main.style.display="none"  
                             boxFixe.style.display="none"  
@@ -844,7 +894,7 @@ const getData = async function  () {
                         numberLikes.style.fontWeight="500"
                         
                         sumLike= sumLike+media[p].likes
-                       totalLike.textContent=sumLike
+                         totalLike.textContent=sumLike
 
                         heart.style.cursor="pointer"
                         heart.addEventListener("click", ()=> {
@@ -854,6 +904,19 @@ const getData = async function  () {
                             heart.classList.replace("far","fas")
                             
                         })
+                        box.setAttribute("data-order", media[p].likes)
+                        selectionTri(date, box)
+                        selectionTri(titre, box)
+                        selectionTri(popularite, box)
+                           
+                        chevron.addEventListener('click',  dropDown)
+                        
+                          
+                                
+                                selectionTriEnter(date, box)
+                                selectionTriEnter(titre, box)
+                                selectionTriEnter(popularite, box)
+                      
                        
                       
                       
@@ -870,90 +933,28 @@ const getData = async function  () {
                    
                   
                      
-                        //on créer les filtres de présentation des photos
-                       
-                     selectionTri(date)
-                     selectionTri(titre)
-                     selectionTri(popularite)
+                        
 
                   
                          //ouverture et fermeture du champ de selection        
                 
+             
+                
                
-                chevron.addEventListener('click',  dropDown)
-                chevron.addEventListener("keyup", e=> {
-                   
-                    if(e.key=="Enter"){
-                        dropDown()
-                        
-                        date.style.order="1"
-                        popularite.style.order="1"
-                        titre.style.order="1"
-                       
-                        
+               
+            }}new MediaFactory()}
 
-                        for (let m=0; m<option.length;m++)
-                        option[m].addEventListener('keyup', e=> {
-
-                            if (e.key=="Enter"){
-                                nbr=0
+            chevron.addEventListener("keyup", e=> {
                                
-                                date.setAttribute("aria-selected", "false")
-                                popularite.setAttribute("aria-selected", "false")
-                                titre.setAttribute("aria-selected", "false")
-                                date.tabIndex="-1"
-                                popularite.tabIndex="-1"
-                                titre.tabIndex="-1"
-                                e.target.tabIndex="16"                             
-                                e.target.style.order="0"
-                             
-                               e.target.setAttribute("aria-selected", "true")
-                              buttonTri.style.height="50px"        
-                              buttonTri.style.backgroundColor="#901C1C"    
-                              buttonTri.style.color="white"              
-                               chevron.style.transform="rotate(0deg)"
-                               {
-                                if(popularite.style.order=="0") {
-                                    
-                                    box.style.order="-"+media[p].likes
-                                    box.style.order=(Number(box.style.order)+400) 
-                                        
-                                    box.tabIndex=box.style.order
-                                   
-                               }
-                        }
-                                if (date.style.order=="0"){
-                                   
-                                    box.style.order="-"+box.className.replace("-","")
-                                    box.style.order=(Number(box.style.order)+100000000) 
-                                        
-                                    box.tabIndex=box.style.order
-                                   
-                                }
+            if(e.key=="Enter"){
 
-                                if (titre.style.order=="0") {
-                                    
+                dropDown()
 
-                                    for(let j=0;j<4;j++){
-                                        box.id.replace(" ","")
-                                        box.id.replace(",","")
-                                        box.style.order=box.id[0].charCodeAt()
-                                        box.style.order+= box.id[1].charCodeAt()                               
-                                        box.tabIndex=box.style.order
-                                      
-                                    
-                                    }
-                                }
+               }})
 
-                            }
-                        })        
-                    }
-                })
-               
-            }}new mediaFactory}
-               
-
-                   
+            //on créer les filtres de présentation des photos
+                       
+           
 
 
 
@@ -969,6 +970,11 @@ const getData = async function  () {
                         textTri.tabIndex="15"
                         buttonTri.tabIndex="16"                       
                         chevron.tabIndex="17"
+
+
+
+
+
                        
                        chevron.addEventListener("keypress", (e)=>{
                            

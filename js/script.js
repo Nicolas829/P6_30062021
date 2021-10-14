@@ -50,8 +50,19 @@ contenu.style.fontWeight="700"
   
 
 
-//function focus
-
+//function resize
+function resizePage(box) {
+  if(matchMedia("(max-width:1450px)").matches) {
+    box.style.fontSize="0.8em"
+}
+if(matchMedia("(max-width:1250px)").matches) {
+  
+ 
+    box.style.fontSize="2em"
+    box.style.width="100%"
+    divStyle.flexDirection="column"
+    
+  } }
  
   
  
@@ -152,8 +163,7 @@ const getData = async function  () {
     dataTags.push(photographers[i].tags)
     box.classList.add(dataTags)
   
-    boxFilter.push(box.className.split(","))
-    
+    boxFilter.push(box.className.split(","))    
 
     box.style.display="flex";
     box.style.flexDirection="column";
@@ -168,22 +178,13 @@ const getData = async function  () {
     box.style.cursor="pointer";
     
     
-    window.addEventListener("resize", ()=> {
-      if(window.innerWidth<1400) {
-        box.style.fontSize="0.8em"
-      }
-      if(window.innerWidth<1200) {
-        box.style.fontSize="2em"
-        box.style.width="100%"
-      } 
-     
-    })
-   
-   
     
+    window.addEventListener("resize", resizePage(box))
 
 
-    
+   
+   
+       
     Photo.style.objectFit="cover";
     Photo.style.width="15em";
     Photo.style.height="15em";
