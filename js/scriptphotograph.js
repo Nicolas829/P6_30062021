@@ -755,17 +755,17 @@ const getData = async function  () {
                              
                              this.mediaCard=mediaCard
                              this.url=url
-                             this.url = "/img/"+media[p].image                             
+                             this.url = "img/"+media[p].image                             
                             
                              if(this.url.includes("jpg")){
-                                this.url = "/img/"+media[p].image
+                                this.url = "img/"+media[p].image
                                  this.mediaCard=new PhotoCard(this.url)
                                 
                              }
                              
                             
                              else if(this.url.includes("undefined")){
-                                 this.url="/img/"+media[p].video
+                                 this.url="img/"+media[p].video
                                  this.mediaCard=new VideoCard(this.url)
                                  
                                 
