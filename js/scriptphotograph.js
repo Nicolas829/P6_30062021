@@ -149,14 +149,17 @@ const getData = async function  () {
            
            if (regle.test(e.target.value)){
                p.parentNode.removeChild(p)
+               console.log(regle)
               nameInput.style.border="solid 2px green"
               nameInput.setAttribute("aria-label", "Nous avons bien enregistré votre"+nameInput.previousSibling.innerText)
+             
               return true;
               
            }
            
            else {
                nameInput.insertAdjacentElement("afterend", p).innerText= texte  
+               console.log(regle)
                 p.style.color="red";
                 p.style.fontSize="2em"
                 p.style.marginBottom="-1em"
@@ -287,7 +290,7 @@ const getData = async function  () {
                         }}
 
             )}
-            function selectionTriEnter(a, box) {
+            function selectionTriEnter(a, box, mediaCard, heart) {
                      
                 a.addEventListener("keyup", e=> {
                                
@@ -313,15 +316,19 @@ const getData = async function  () {
                             if(popularite.style.order=="0") {
                                 
                               box.style.order="-"+box.getAttribute("data-order")
-                              box.style.order=(Number(box.style.order)+400)                             
-                              box.tabIndex=box.style.order
+                              box.style.order=(Number(box.style.order)+400) 
+                              box.tabIndex=box.style.order                            
+                              mediaCard.tabIndex=box.style.order
+                              heart.tabIndex=box.tabIndex
                            }
                     
                             if (date.style.order=="0"){
                                 
                                 box.style.order="-"+box.className.replace("-","")
                                 box.style.order=(Number(box.style.order)+100000000)                             
-                                box.tabIndex=box.style.order
+                                box.tabIndex=box.style.order                            
+                              mediaCard.tabIndex=box.style.order
+                              heart.tabIndex=box.tabIndex
                                 
                                
                             }
@@ -333,10 +340,10 @@ const getData = async function  () {
                                    box.id.replace(" ","")
                                    box.id.replace(",","")
                                    box.style.order=box.id[0].charCodeAt()
-                                   box.style.order+= box.id[1].charCodeAt()                                  
-                                 
-                              
-                                   box.tabIndex=box.style.order
+                                   box.style.order+= box.id[1].charCodeAt()                            
+                                   box.tabIndex=box.style.order                            
+                                   mediaCard.tabIndex=box.style.order
+                                   heart.tabIndex=box.tabIndex
                                    
                                 
                                 }
@@ -582,7 +589,7 @@ const getData = async function  () {
 
                 //creation des règles et du paragraphe pour la modal
                 const nameReg = new RegExp(/[a-zA-Z]{2,10}/);
-                const emailReg = new RegExp(/^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/);
+                const emailReg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
                 const messageReg= new RegExp(/[a-zA-Z]{10,400}/)
                
                
@@ -812,7 +819,8 @@ const getData = async function  () {
                        box.style.alignItems="center"
                        box.setAttribute("alt", media[p].title)
                        box.tabIndex="21"                     
-                       
+                       heart.tabIndex=box.tabIndex
+                       this.mediaCard.tabIndex=box.tabIndex
                          //fonction choix video ou image
       
                        
@@ -834,7 +842,8 @@ const getData = async function  () {
                         boxLikes.appendChild(heart)
                        
                        
-                        box.addEventListener("keyup", (e)=> {
+                        this.mediaCard.addEventListener("keyup", (e)=> {
+                            
                             if ((e).key=='Enter') {
                             main.style.display="none"  
                             boxFixe.style.display="none"  
@@ -904,6 +913,18 @@ const getData = async function  () {
                             heart.classList.replace("far","fas")
                             
                         })
+                        heart.addEventListener("keyup", e=> {
+                               
+                            if(e.key=="Enter"){
+                                numberLikes.innerText= media[p].likes+=1
+                                sumLike= sumLike+=1
+                                totalLike.textContent=sumLike
+                                heart.classList.replace("far","fas")
+                            }})
+
+
+
+
                         box.setAttribute("data-order", media[p].likes)
                         selectionTri(date, box)
                         selectionTri(titre, box)
@@ -913,9 +934,9 @@ const getData = async function  () {
                         
                           
                                 
-                                selectionTriEnter(date, box)
-                                selectionTriEnter(titre, box)
-                                selectionTriEnter(popularite, box)
+                                selectionTriEnter(date, box, this.mediaCard, heart)
+                                selectionTriEnter(titre, box, this.mediaCard, heart)
+                                selectionTriEnter(popularite, box, this.mediaCard, heart)
                       
                        
                       
