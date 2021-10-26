@@ -5,7 +5,7 @@
 
 const main= document.querySelector("main")
 const body=document.querySelector("body")
-const option=document.getElementsByClassName("option")
+
 
 
 //create Element 
@@ -242,7 +242,7 @@ const getData = async function  () {
 
          function selectionTri(a, box) {
                      
-            a.addEventListener("click", (e)=> {
+            a.addEventListener("click", ()=> {
                 
             
             buttonTri.style.height="50px"
@@ -589,7 +589,7 @@ const getData = async function  () {
 
                 //creation des règles et du paragraphe pour la modal
                 const nameReg = new RegExp(/[a-zA-Z]{2,10}/);
-                const emailReg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+                const emailReg = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
                 const messageReg= new RegExp(/[\s*a-zA-Z]{10,400}/)
                
                

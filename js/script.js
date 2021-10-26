@@ -51,18 +51,7 @@ contenu.style.fontWeight="700"
 
 
 //function resize
-function resizePage(box) {
-  if(matchMedia("(max-width:1450px)").matches) {
-    box.style.fontSize="0.8em"
-}
-if(matchMedia("(max-width:1250px)").matches) {
-  
- 
-    box.style.fontSize="2em"
-    box.style.width="100%"
-    divStyle.flexDirection="column"
-    
-  } }
+
  
   
  
@@ -162,8 +151,10 @@ const getData = async function  () {
     let dataTags =[];
     dataTags.push(photographers[i].tags)
     box.classList.add(dataTags)
+    
   
     boxFilter.push(box.className.split(","))    
+    
 
     box.style.display="flex";
     box.style.flexDirection="column";
@@ -179,7 +170,20 @@ const getData = async function  () {
     
     
     
-    window.addEventListener("resize", resizePage(box))
+    window.addEventListener("resize", (box) =>{
+
+      if(matchMedia("(max-width:1450px)").matches) {
+        box.style.fontSize="0.8em"
+    }
+      if(matchMedia("(max-width:1250px)").matches) {
+      
+     
+        box.style.fontSize="2em"
+        box.style.width="100%"
+        divStyle.flexDirection="column"
+        
+      } 
+    })
 
 
    
