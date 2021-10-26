@@ -50,8 +50,6 @@ contenu.style.fontWeight="700"
   
 
 
-//function resize
-
  
   
  
@@ -170,20 +168,23 @@ const getData = async function  () {
     
     
     
-    window.addEventListener("resize", (box) =>{
+//function resize
 
-      if(matchMedia("(max-width:1450px)").matches) {
+  
+    
+   
+    if(matchMedia("(max-width:1450px)").matches) {
         box.style.fontSize="0.8em"
     }
-      if(matchMedia("(max-width:1250px)").matches) {
-      
+    if(matchMedia("(max-width:1250px)").matches) {      
      
         box.style.fontSize="2em"
         box.style.width="100%"
         divStyle.flexDirection="column"
         
       } 
-    })
+
+    
 
 
    
