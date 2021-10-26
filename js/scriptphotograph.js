@@ -590,7 +590,7 @@ const getData = async function  () {
                 //creation des règles et du paragraphe pour la modal
                 const nameReg = new RegExp(/[a-zA-Z]{2,10}/);
                 const emailReg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
-                const messageReg= new RegExp(/[a-zA-Z]{10,400}/)
+                const messageReg= new RegExp(/[\s*a-zA-Z]{10,400}/)
                
                
 
